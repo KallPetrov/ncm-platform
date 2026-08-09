@@ -267,3 +267,23 @@ class TestUserManagement:
         data = response.json()
         assert data["username"] == "testuser"
         assert data["email"] == "test@example.com"
+
+    def test_reset_password(self, client: TestClient, test_user: User):
+        """Test resetting user password"""
+        response = client.post(
+            "/auth/reset-password",
+            json={
+                "username": "testuser",
+                "email": "test@example.com",
+                "new_password": "newsecurepassword123"
+            }
+        )
+        assert response.status_code == 200
+        assert response.json()["message"] == "Password reset successful"
+
+        # Verify login works with the new password
+        login_response = client.post(
+            "/auth/login",
+            data={"username": "testuser", "password": "newsecurepassword123"}
+        )
+        assert login_response.status_code == 200

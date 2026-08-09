@@ -242,6 +242,13 @@ class ApiClient {
   async getConfigurationByVersion(deviceId: number, version: number): Promise<any> {
     return this.request<any>(`/configurations/device/${deviceId}/version/${version}`)
   }
+
+  async resetPassword(username: string, email: string, newPassword: string): Promise<any> {
+    return this.request<any>("/auth/reset-password", {
+      method: "POST",
+      body: JSON.stringify({ username, email, new_password: newPassword }),
+    })
+  }
 }
 
 export const api = new ApiClient()

@@ -5,6 +5,13 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.9] - 2026-08-09
+
+### Added
+- Real backend password reset endpoint `/auth/reset-password` in `app/api/auth.py` with email validation, database verification, dynamic hash generation, and full audit logging
+- Expanded `LoginForm.tsx` UI supporting seamless switching between standard "Sign In", "Register Account", and "Reset Password" views with full validation, integration, and user-friendly success notifications
+- Created integration unit test `test_reset_password` inside `tests/test_auth.py` verifying full recovery flows
+
 ## [0.4.8] - 2026-08-09
 
 ### Added
