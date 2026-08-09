@@ -20,9 +20,9 @@ interface BackupJob {
   device_id: number
   device_name: string
   status: string
-  scheduled_time: string
-  completed_time: string | null
   error_message: string | null
+  started_at: string
+  completed_at: string | null
 }
 
 export function BackupJobsDashboard() {
@@ -59,6 +59,7 @@ export function BackupJobsDashboard() {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
+      case "success":
       case "completed":
         return <CheckCircle className="h-4 w-4 text-green-500" />
       case "failed":
@@ -74,6 +75,7 @@ export function BackupJobsDashboard() {
 
   const getStatusBadge = (status: string) => {
     switch (status) {
+      case "success":
       case "completed":
         return <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Completed</Badge>
       case "failed":
@@ -88,12 +90,12 @@ export function BackupJobsDashboard() {
   }
 
   const sortedJobs = [...backupJobs].sort((a, b) => 
-    new Date(b.scheduled_time).getTime() - new Date(a.scheduled_time).getTime()
+    new Date(b.started_at).getTime() - new Date(a.started_at).getTime()
   )
 
   const stats = {
     total: backupJobs.length,
-    completed: backupJobs.filter(job => job.status === "completed").length,
+    completed: backupJobs.filter(job => job.status === "completed" || job.status === "success").length,
     failed: backupJobs.filter(job => job.status === "failed").length,
     running: backupJobs.filter(job => job.status === "running").length,
     pending: backupJobs.filter(job => job.status === "pending").length,
@@ -192,20 +194,20 @@ export function BackupJobsDashboard() {
                           <span className="font-medium">{job.device_name}</span>
                           {getStatusBadge(job.status)}
                         </div>
-                        <div className="text-sm text-muted-foreground flex items-center gap-4">
+                        <div className="text-sm text-muted-foreground flex items-center gap-4 mt-1">
                           <span className="flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
-                            Scheduled: {new Date(job.scheduled_time).toLocaleString()}
+                            Started: {new Date(job.started_at).toLocaleString()}
                           </span>
-                          {job.completed_time && (
+                          {job.completed_at && (
                             <span className="flex items-center gap-1">
                               <CheckCircle className="h-3 w-3" />
-                              Completed: {new Date(job.completed_time).toLocaleString()}
+                              Completed: {new Date(job.completed_at).toLocaleString()}
                             </span>
                           )}
                         </div>
                         {job.error_message && (
-                          <div className="text-sm text-red-500 mt-1">
+                          <div className="text-sm text-red-500 mt-2">
                             Error: {job.error_message}
                           </div>
                         )}

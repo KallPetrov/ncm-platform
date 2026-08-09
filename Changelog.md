@@ -5,6 +5,13 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.8] - 2026-08-09
+
+### Added
+- Expanded Pydantic schema `BackupJobListItem` in `app/schemas/backup_job.py` to include real `device_name` and `error_message` fields
+- Enhanced backend backup jobs endpoint `/backup-jobs/` in `app/api/backup_jobs.py` to dynamically fetch device names through SQLAlchemy relationships and output real error details
+- Fully integrated frontend `BackupJobsDashboard.tsx` with backend contracts, displaying real device names, starting/completion timestamps, and error reasons for failed backups
+
 ## [0.4.7] - 2026-08-09
 
 ### Added

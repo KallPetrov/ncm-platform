@@ -24,7 +24,21 @@ def list_backup_jobs(
         query = query.filter(BackupJob.device_id == device_id)
     
     jobs = query.order_by(BackupJob.started_at.desc()).offset(skip).limit(limit).all()
-    return jobs
+
+    # Populate device names and error messages dynamically
+    jobs_list = []
+    for job in jobs:
+        device_name = job.device.name if job.device else "Unknown Device"
+        jobs_list.append({
+            "id": job.id,
+            "device_id": job.device_id,
+            "device_name": device_name,
+            "status": job.status,
+            "error_message": job.error_message,
+            "started_at": job.started_at,
+            "completed_at": job.completed_at
+        })
+    return jobs_list
 
 
 @router.get("/{job_id}")
