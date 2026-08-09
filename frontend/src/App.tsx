@@ -122,7 +122,7 @@ function App() {
               <p className="text-muted-foreground">
                 View and manage device configuration history
               </p>
-              <ConfigurationViewer deviceId={1} deviceName="Test Router" />
+              <ConfigurationViewer />
             </div>
           )}
           {activeTab === "compliance" && (

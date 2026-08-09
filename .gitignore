@@ -1,0 +1,32 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Databases and storage
+test.db
+storage/settings.json
+
+# Coverage and testing
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Logs
+*.log
+backend_output.log
+frontend_output.log
+
+# Frontend dependencies and builds
+frontend/node_modules/
+frontend/dist/
+frontend/.cache/
+frontend/package-lock.json
+
+# Environments
+.env
+.venv/
+venv/
+env/
+ENV/

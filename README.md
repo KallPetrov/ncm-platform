@@ -1,6 +1,6 @@
 # NCM Platform - Network Configuration Management
 
-**Version:** 0.4.5  
+**Version:** 0.4.6
 **Status:** Development Phase  
 **Last Updated:** 2026-08-09
 
@@ -17,6 +17,8 @@ The project now includes a working end-to-end foundation for network configurati
 - Dashboard summaries for devices, backups, configurations, and compliance
 - Audit logging with role-aware records and admin-restricted audit access
 - Frontend integration with a React + TypeScript UI backed by the real API
+- Dynamic Configuration Viewer with device selection and download functionality
+- Real Backend Settings Panel with PostgreSQL and Redis live connection testing and settings persistence
 
 ## Current feature status
 
