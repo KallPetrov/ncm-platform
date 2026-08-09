@@ -5,6 +5,14 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.7] - 2026-08-09
+
+### Added
+- Multi-platform Docker configuration containing `Dockerfile` for FastAPI backend, `frontend/Dockerfile` for Vite compilation, and `frontend/nginx.conf` for serving assets with Single Page Application routing
+- Complete `docker-compose.yml` orchestrating PostgreSQL, Redis, FastAPI backend, Celery worker, and Nginx frontend
+- Added container entrypoint shell script `entrypoint.sh` with a native socket-based PostgreSQL wait loop, automatic database initialization (`scripts/init_db.py`), tables migration, default admin credentials seeding, and Git configurations setup
+- Detailed multi-platform Docker guides and startup commands added to `README.md`
+
 ## [0.4.6] - 2026-08-09
 
 ### Added

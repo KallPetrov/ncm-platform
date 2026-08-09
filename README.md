@@ -1,6 +1,6 @@
 # NCM Platform - Network Configuration Management
 
-**Version:** 0.4.6
+**Version:** 0.4.7
 **Status:** Development Phase  
 **Last Updated:** 2026-08-09
 
@@ -80,6 +80,26 @@ cd frontend
 npm install
 npm run dev
 ```
+
+### Docker (Recommended - Cross-platform)
+
+The easiest way to run the entire platform with PostgreSQL, Redis, and Celery background workers is using Docker Compose:
+
+```bash
+# Build and start all services in the background
+docker compose up --build -d
+
+# Check status of the running containers
+docker compose ps
+
+# View logs for all services
+docker compose logs -f
+```
+
+Once running, access the services on your host machine:
+- **Frontend Web UI:** http://localhost:3000
+- **API Swagger Docs:** http://localhost:8000/docs
+- **Default Login:** `admin` / `admin` (change immediately in production!)
 
 ### Tests
 

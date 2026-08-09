@@ -1,0 +1,78 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ncm-db
+    restart: always
+    environment:
+      POSTGRES_USER: ncm_user
+      POSTGRES_PASSWORD: ncm_password
+      POSTGRES_DB: ncm_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: ncm-redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ncm-backend
+    restart: always
+    command: /app/entrypoint.sh
+    environment:
+      - DATABASE_URL=postgresql://ncm_user:ncm_password@db:5432/ncm_db
+      - REDIS_URL=redis://redis:6379/0
+      - GIT_REPO_PATH=/app/storage/configs
+      - SECRET_KEY=ncm-platform-secret-key-2026-production-ready
+      - APP_NAME=NCM Platform
+      - DEBUG=True
+    ports:
+      - "8000:8000"
+    volumes:
+      - ncm_configs:/app/storage/configs
+    depends_on:
+      - db
+      - redis
+
+  celery_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ncm-worker
+    restart: always
+    command: celery -A app.tasks.celery_app worker --loglevel=info
+    environment:
+      - DATABASE_URL=postgresql://ncm_user:ncm_password@db:5432/ncm_db
+      - REDIS_URL=redis://redis:6379/0
+      - GIT_REPO_PATH=/app/storage/configs
+      - SECRET_KEY=ncm-platform-secret-key-2026-production-ready
+    volumes:
+      - ncm_configs:/app/storage/configs
+    depends_on:
+      - db
+      - redis
+      - backend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: ncm-frontend
+    restart: always
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  ncm_configs:
