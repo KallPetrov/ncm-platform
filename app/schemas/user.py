@@ -58,3 +58,9 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: Optional[str] = None
+
+
+class PasswordResetRequest(BaseModel):
+    username: str
+    email: str
+    new_password: str = Field(..., min_length=8)

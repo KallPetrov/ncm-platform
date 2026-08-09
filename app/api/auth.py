@@ -205,3 +205,31 @@ def logout():
     # In a stateless JWT system, logout is handled client-side
     # by removing the token
     return {"message": "Successfully logged out"}
+
+
+from app.schemas.user import PasswordResetRequest
+
+@router.post("/reset-password")
+def reset_password(payload: PasswordResetRequest, db: Session = Depends(get_db)):
+    """Reset user password. Verifies both username and email match before updating."""
+    user = db.query(User).filter(User.username == payload.username, User.email == payload.email).first()
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found with matching username and email"
+        )
+
+    # Hash and update new password
+    user.hashed_password = get_password_hash(payload.new_password)
+    db.commit()
+
+    AuditService.log_action(
+        db,
+        user,
+        "password_reset",
+        resource_type="user",
+        resource_id=user.id,
+        details=f"Password reset for {user.username}",
+    )
+
+    return {"message": "Password reset successful"}

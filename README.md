@@ -1,6 +1,6 @@
 # NCM Platform - Network Configuration Management
 
-**Version:** 0.4.8
+**Version:** 0.4.9
 **Status:** Development Phase  
 **Last Updated:** 2026-08-09
 
