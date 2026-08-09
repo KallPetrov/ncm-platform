@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { GitCompare, FileText, Clock } from "lucide-react"
+import { api } from "@/lib/api"
 
 interface Configuration {
   id: number
@@ -35,9 +36,7 @@ export function ConfigurationViewer({ deviceId, deviceName }: ConfigurationViewe
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch(`http://localhost:8000/configurations/device/${deviceId}`)
-      if (!response.ok) throw new Error("Failed to load configurations")
-      const data = await response.json()
+      const data = await api.getDeviceConfigurations(deviceId)
       setConfigurations(data)
       if (data.length > 0) {
         setSelectedVersionA(data[0].version)
@@ -57,11 +56,7 @@ export function ConfigurationViewer({ deviceId, deviceName }: ConfigurationViewe
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch(
-        `http://localhost:8000/configurations/device/${deviceId}/diff?version_a=${selectedVersionA}&version_b=${selectedVersionB}`
-      )
-      if (!response.ok) throw new Error("Failed to load diff")
-      const data = await response.json()
+      const data = await api.getConfigurationDiff(deviceId, selectedVersionA, selectedVersionB)
       setDiff(data.diff || "No differences found")
     } catch (err) {
       setError("Failed to load diff")

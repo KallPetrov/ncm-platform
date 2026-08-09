@@ -32,6 +32,7 @@ class ChangeDetectionService:
         if not has_changed:
             return {
                 'has_changed': False,
+                'has_changes': False,
                 'old_hash': old_hash,
                 'new_hash': new_hash,
                 'change_summary': "No changes detected",
@@ -55,6 +56,7 @@ class ChangeDetectionService:
         
         return {
             'has_changed': True,
+            'has_changes': True,
             'old_hash': old_hash,
             'new_hash': new_hash,
             'change_summary': change_summary,
@@ -130,13 +132,19 @@ class ChangeDetectionService:
         latest_config = configs[0]
         previous_config = configs[1]
         
-        # Get actual content from Git storage
+        # Get actual content from Git storage when available, otherwise fall back
+        # to the content stored directly with the configuration record.
         latest_content = self.git_storage.get_configuration(
             device_id, device_name, latest_config.version
         )
         previous_content = self.git_storage.get_configuration(
             device_id, device_name, previous_config.version
         )
+
+        if not latest_content and latest_config.content is not None:
+            latest_content = latest_config.content
+        if not previous_content and previous_config.content is not None:
+            previous_content = previous_config.content
         
         if not latest_content or not previous_content:
             return {

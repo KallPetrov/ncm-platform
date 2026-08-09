@@ -1,4 +1,4 @@
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import Optional
 
 
@@ -19,16 +19,14 @@ class Settings(BaseSettings):
     
     # Application
     APP_NAME: str = "NCM Platform"
-    APP_VERSION: str = "0.4.0"
+    APP_VERSION: str = "0.4.5"
     DEBUG: bool = True
     
     # Backup Settings
     DEFAULT_BACKUP_INTERVAL: int = 3600  # 1 hour in seconds
     MAX_CONCURRENT_BACKUPS: int = 10
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = True
+    model_config = SettingsConfigDict(env_file=".env", case_sensitive=True)
 
 
 settings = Settings()

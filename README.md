@@ -1,205 +1,129 @@
 # NCM Platform - Network Configuration Management
 
-**Version:** 0.4.0  
+**Version:** 0.4.5  
 **Status:** Development Phase  
 **Last Updated:** 2026-08-09
 
-Self-hosted Network Configuration Management platform inspired by Unimus. Built for production use with real functionality, no simulated data, and cross-platform compatibility.
-## Features
+Self-hosted Network Configuration Management platform inspired by Unimus. Built for real-world use with backend APIs, database-backed device management, compliance reporting, automation workflows, and audit logging.
 
-- **Network Automation**: Mass Config Push/Pull capabilities for bulk configuration management across multiple devices
-- **Disaster Recovery**: Comprehensive network configuration backup with automated scheduling and version control
-- **Configuration Change Detection**: Real-time detection and management of configuration changes with detailed diff analysis
-- **Change Management**: Complete change tracking, approval workflows, and rollback capabilities
-- **Network-wide Configuration Auditing**: Advanced auditing capabilities for compliance checking and security validation
-- **Configuration Backup**: Automated scheduled backups for network devices with Git-based versioning
-- **Multi-vendor Support**: Support for 450+ device types from 160+ vendors (Cisco, MikroTik, Juniper, HP, Arista and more)
-- **Modern UI**: React-based interface with modal dialogs and responsive design
-- **Real-time Notifications**: Email and webhook support for critical events
-- **Compliance Reporting**: Ensure compliance with internal policies and industry standards
+## What is implemented
 
-## Tech Stack
+The project now includes a working end-to-end foundation for network configuration management:
+
+- Device lifecycle management with CRUD operations and backup triggering
+- Configuration versioning and real configuration inspection
+- Compliance evaluation with report summaries and rule-level details
+- Automation workflows with template validation and execution support
+- Dashboard summaries for devices, backups, configurations, and compliance
+- Audit logging with role-aware records and admin-restricted audit access
+- Frontend integration with a React + TypeScript UI backed by the real API
+
+## Current feature status
+
+### Backend
+- FastAPI application with authenticated API endpoints
+- SQLite-based local testing mode and PostgreSQL-ready configuration
+- Device, configuration, backup job, user, and audit models
+- RBAC-aware permission checks for privileged actions
+- Audit trail support for mutation and permission-denied events
+
+### Frontend
+- React + TypeScript + Vite application
+- Protected authentication flow
+- Device management UI
+- Configuration and compliance views
+- Automation and backup job panels
+- Audit Logs tab with filtering and role display
+
+## Tech stack
 
 ### Backend
 - Python 3.11+
-- FastAPI (Web framework)
-- PostgreSQL (Database)
-- Netmiko (SSH/Telnet connectivity)
-- Celery + Redis (Task queue & scheduler)
-- Git (Configuration versioning)
-- Jinja2 (Template engine)
+- FastAPI
+- SQLAlchemy
+- Pydantic
+- SQLite for local testing, PostgreSQL-ready for production
+- Netmiko-style connectivity abstraction
+- Celery + Redis support for async workflows
+- Git-based storage concepts for configuration versioning
 
 ### Frontend
 - React + TypeScript
-- Vite (Build tool)
-- TailwindCSS (Styling)
-- shadcn/ui (UI components)
+- Vite
+- TailwindCSS
+- shadcn/ui-inspired components
 - Lucide Icons
 
-## Installation
+## Quick start
 
 ### Prerequisites
 - Python 3.11+
 - Node.js 18+
-- PostgreSQL 14+
-- Redis 7+
+- Optional: PostgreSQL and Redis for production-like deployments
 
-### Backend Setup
+### Backend
 
 ```bash
-# Clone repository
-git clone <repository-url>
-cd ncm-platform
-
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
+cd /home/kallata/Downloads/ncm-platform
+python3 -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
-
-# Setup environment variables
-cp .env.example .env
-# Edit .env with your configuration (database, redis, smtp, etc.)
-
-# Run database migrations
-alembic upgrade head
-
-# Start Redis (required for Celery)
-redis-server
-
-# Start Celery worker (in separate terminal)
-celery -A app.tasks.celery_app worker --loglevel=info
-
-# Start API server
-uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+TESTING=1 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-### Frontend Setup
+### Frontend
 
 ```bash
 cd frontend
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-### Production Setup
+### Tests
 
 ```bash
-# Build frontend
-cd frontend
-npm run build
-
-# Start backend with production settings
-uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
+cd /home/kallata/Downloads/ncm-platform
+TESTING=1 ./.venv/bin/python -m pytest -q tests/test_audit_rbac.py tests/test_devices.py tests/test_configurations.py
 ```
 
-## Project Structure
+## Project structure
 
-```
+```text
 ncm-platform/
 ├── app/
-│   ├── api/              # API endpoints (devices, configurations, backup_jobs)
-│   ├── core/             # Configuration & security
-│   ├── models/           # Database models (Device, Configuration, BackupJob, User)
-│   ├── schemas/          # Pydantic schemas for validation
-│   ├── services/         # Business logic (connectivity, backup, automation, compliance)
-│   ├── tasks/            # Celery tasks for async operations
-│   └── main.py           # FastAPI application
-├── alembic/              # Database migrations
+│   ├── api/              # FastAPI routes for auth, devices, configs, backups, audit
+│   ├── core/             # Settings, DB, security helpers
+│   ├── models/           # SQLAlchemy models
+│   ├── schemas/          # Pydantic request/response schemas
+│   ├── services/         # Business logic for compliance, automation, backup, audit
+│   └── main.py           # Application entrypoint
 ├── frontend/             # React frontend
-│   ├── src/
-│   │   ├── components/   # React components
-│   │   ├── lib/          # Utilities
-│   │   └── App.tsx       # Main application
-│   └── package.json
-├── storage/              # Git repository for configs
-├── tests/                # Test suite
+├── tests/                # Backend regression tests
 ├── Changelog.md          # Version history
-├── Module_Status.md      # Development progress
-└── README.md             # This file
+├── Module_Status.md      # Detailed module progress
+└── README.md             # Project overview
 ```
 
-## API Documentation
+## API documentation
 
-Once running, visit:
+Once the backend is running, visit:
 - Swagger UI: http://localhost:8000/docs
 - ReDoc: http://localhost:8000/redoc
 
-## Development Status
+## Current status (v0.4.5)
 
-See [Module_Status.md](Module_Status.md) for detailed progress tracking.
-
-### Current Status (v0.1.0)
-- Backend core functionality implemented
-- Frontend UI framework setup
-- Device management with modal dialogs
-- Frontend-backend integration pending
-- Authentication system pending
-- Real database setup pending
-
-## Cross-Platform Compatibility
-
-The platform is designed to work on:
-- **Linux** (Ubuntu, Debian, CentOS, RHEL)
-- **Windows** (Windows 10/11, Windows Server)
-- **macOS** (Intel and Apple Silicon)
-
-### Platform-Specific Notes
-
-**Linux:**
-- Use system package manager for dependencies
-- Consider systemd for service management
-
-**Windows:**
-- Use WSL2 for best experience
-- Native Windows support available
-
-**macOS:**
-- Homebrew recommended for dependencies
-- Native macOS support available
+Verified in the current workspace:
+- Backend regression tests for audit/RBAC, devices, and configurations are passing
+- Frontend production build completes successfully
+- Compliance, automation, backup, and audit views are wired to the real backend API
 
 ## Contributing
 
-1. Follow the development plan in Module_Status.md
-2. Update Changelog.md for any changes
-3. Update version numbers for releases
-4. Ensure no hardcoded data
-5. Test cross-platform compatibility
-
-## Versioning
-
-This project follows [Semantic Versioning](https://semver.org/):
-- **MAJOR**: Breaking changes
-- **MINOR**: New features (backwards compatible)
-- **PATCH**: Bug fixes
-
-See [Changelog.md](Changelog.md) for version history.
+1. Keep the module plan in Module_Status.md aligned with implementation
+2. Update Changelog.md for every meaningful change
+3. Bump the version when shipping new functionality or fixes
+4. Keep the backend and frontend contracts synchronized
 
 ## License
 
-**Commercial License**
-
-This software is proprietary and licensed for commercial use. All rights reserved.
-
-### License Terms
-- This software is licensed, not sold
-- Use requires a valid commercial license
-- Redistribution and modification are prohibited without explicit permission
-- Support and updates are provided under the license agreement
-
-### Licensing Information
-For licensing inquiries, please contact the platform provider.
-
-**© 2026 NCM Platform. All rights reserved.**
-
-## Support
-
-For issues and questions, please refer to:
-- Module_Status.md for current development status
-- Changelog.md for recent changes
-- API documentation at /docs endpoint
+Commercial license. All rights reserved.

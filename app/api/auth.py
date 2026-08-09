@@ -7,6 +7,7 @@ from app.core.security import create_access_token, decode_access_token
 from app.core.config import settings
 from app.models.user import User
 from app.schemas.user import UserCreate, UserLogin, Token, User as UserSchema
+from app.services.audit import AuditService
 import bcrypt
 import logging
 
@@ -76,6 +77,34 @@ def get_current_admin_user(current_user: User = Depends(get_current_user)):
     return current_user
 
 
+def require_permission(current_user: User, permission: str, db: Session | None = None, resource_type: str | None = None, resource_id: int | None = None):
+    """Enforce simple role-based access control for privileged actions."""
+    if current_user.is_admin:
+        return True
+
+    if permission == "manage_devices" and current_user.is_admin:
+        return True
+    if permission == "manage_configurations" and current_user.is_admin:
+        return True
+    if permission == "view_audit_logs" and current_user.is_admin:
+        return True
+
+    if db is not None:
+        AuditService.log_action(
+            db,
+            current_user,
+            "permission_denied",
+            resource_type=resource_type,
+            resource_id=resource_id,
+            details=f"Denied {permission} for {current_user.username}",
+        )
+
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="Not enough permissions",
+    )
+
+
 @router.post("/register", response_model=UserSchema, status_code=status.HTTP_201_CREATED)
 def register(user: UserCreate, db: Session = Depends(get_db)):
     """Register a new user"""
@@ -108,6 +137,14 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
+    AuditService.log_action(
+        db,
+        db_user,
+        "user_registered",
+        resource_type="user",
+        resource_id=db_user.id,
+        details="New user registered",
+    )
     
     return db_user
 
@@ -134,10 +171,18 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     
     access_token_expires = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = create_access_token(
-        data={"sub": user.username}, expires_delta=access_token_expires
+        data={"sub": user.username, "role": "admin" if user.is_admin else "user"}, expires_delta=access_token_expires
     )
     
     logger.info(f"Created token: {access_token[:50]}...")
+    AuditService.log_action(
+        db,
+        user,
+        "user_login",
+        resource_type="user",
+        resource_id=user.id,
+        details="User logged in",
+    )
     
     return {"access_token": access_token, "token_type": "bearer"}
 
@@ -145,6 +190,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 @router.get("/me", response_model=UserSchema)
 def read_users_me(current_user: User = Depends(get_current_active_user)):
     """Get current user information"""
+    return current_user
+
+
+@router.get("/users/me", response_model=UserSchema)
+def read_users_me_alias(current_user: User = Depends(get_current_active_user)):
+    """Compatibility endpoint for frontend and tests."""
     return current_user
 
 

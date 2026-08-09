@@ -13,6 +13,7 @@ import {
   Calendar,
   Server
 } from "lucide-react"
+import { api } from "@/lib/api"
 
 interface BackupJob {
   id: number
@@ -37,9 +38,7 @@ export function BackupJobsDashboard() {
     setLoading(true)
     setError(null)
     try {
-      const response = await fetch("http://localhost:8000/backup-jobs/")
-      if (!response.ok) throw new Error("Failed to load backup jobs")
-      const data = await response.json()
+      const data = await api.getBackupJobs()
       setBackupJobs(data)
     } catch (err) {
       setError("Failed to load backup jobs")
@@ -51,10 +50,7 @@ export function BackupJobsDashboard() {
 
   const triggerBackup = async (deviceId: number) => {
     try {
-      const response = await fetch(`http://localhost:8000/devices/${deviceId}/trigger-backup`, {
-        method: "POST",
-      })
-      if (!response.ok) throw new Error("Failed to trigger backup")
+      await api.triggerBackup(deviceId)
       await loadBackupJobs()
     } catch (err) {
       console.error("Error triggering backup:", err)

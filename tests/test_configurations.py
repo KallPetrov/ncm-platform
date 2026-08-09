@@ -335,6 +335,48 @@ class TestConfigurationChanges:
 
 @pytest.mark.unit
 @pytest.mark.configurations
+class TestConfigurationCompliance:
+    """Test compliance evaluation for configurations"""
+
+    def test_get_configuration_compliance(self, client: TestClient, auth_token: str, db_session: Session):
+        """Test running compliance checks on a device configuration"""
+        device = DeviceModel(
+            name="Compliance Device",
+            ip_address="192.168.1.7",
+            device_type="router",
+            vendor="Cisco",
+            status="online",
+            username="admin",
+            password=get_password_hash("password"),
+            connection_protocol="ssh",
+            port=22
+        )
+        db_session.add(device)
+        db_session.commit()
+        db_session.refresh(device)
+
+        config = Configuration(
+            device_id=device.id,
+            version=1,
+            content="hostname compliance-router\nservice password-encryption\nip ssh version 2\nlogging 192.0.2.10\nbanner motd ^Unauthorized access^\n"
+        )
+        db_session.add(config)
+        db_session.commit()
+
+        response = client.get(
+            f"/configurations/device/{device.id}/compliance",
+            headers={"Authorization": f"Bearer {auth_token}"}
+        )
+
+        assert response.status_code == 200
+        data = response.json()
+        assert data["device_id"] == device.id
+        assert data["overall_status"] in {"compliant", "warning", "non_compliant", "error"}
+        assert data["total_rules"] > 0
+
+
+@pytest.mark.unit
+@pytest.mark.configurations
 class TestConfigurationAuthentication:
     """Test configuration authentication requirements"""
     

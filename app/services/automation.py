@@ -261,7 +261,7 @@ set community="{{ snmp_community }}"
 set location="{{ location | default('Unknown') }}"
 set contact="{{ contact | default('admin@example.com') }}"
 """,
-            'mikrotik_ntp_config": """
+            'mikrotik_ntp_config': """
 / system ntp client
 set enabled=yes
 set servers={{ ntp_server }}

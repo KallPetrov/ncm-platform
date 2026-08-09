@@ -4,8 +4,12 @@ import { LoginForm } from "./components/LoginForm"
 import { ConfigurationViewer } from "./components/ConfigurationViewer"
 import { BackupJobsDashboard } from "./components/BackupJobsDashboard"
 import { SettingsPanel } from "./components/SettingsPanel"
+import { DashboardOverview } from "./components/DashboardOverview"
+import { ComplianceReports } from "./components/ComplianceReports"
+import { AutomationPanel } from "./components/AutomationPanel"
+import { AuditLogsPanel } from "./components/AuditLogsPanel"
 import { Button } from "./components/ui/button"
-import { Settings, Server, FileText, Activity, Menu, LogOut } from "lucide-react"
+import { Settings, Server, FileText, Activity, Menu, LogOut, LayoutDashboard, ShieldCheck, Zap, History } from "lucide-react"
 import { api } from "./lib/api"
 
 function App() {
@@ -36,9 +40,13 @@ function App() {
   }
 
   const tabs = [
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
     { id: "devices", label: "Devices", icon: Server },
     { id: "configurations", label: "Configurations", icon: FileText },
+    { id: "compliance", label: "Compliance", icon: ShieldCheck },
+    { id: "automation", label: "Automation", icon: Zap },
     { id: "backups", label: "Backup Jobs", icon: Activity },
+    { id: "audit", label: "Audit Logs", icon: History },
     { id: "settings", label: "Settings", icon: Settings },
   ]
 
@@ -98,6 +106,15 @@ function App() {
       {/* Main Content */}
       <main className="flex-1 overflow-auto">
         <div className="container mx-auto p-6">
+          {activeTab === "dashboard" && (
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
+              <p className="text-muted-foreground">
+                Monitor platform health, device state, and recent backup activity.
+              </p>
+              <DashboardOverview />
+            </div>
+          )}
           {activeTab === "devices" && <DeviceManagement />}
           {activeTab === "configurations" && (
             <div className="space-y-6">
@@ -108,6 +125,24 @@ function App() {
               <ConfigurationViewer deviceId={1} deviceName="Test Router" />
             </div>
           )}
+          {activeTab === "compliance" && (
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold tracking-tight">Compliance Reports</h2>
+              <p className="text-muted-foreground">
+                Review per-device compliance results and rule status.
+              </p>
+              <ComplianceReports />
+            </div>
+          )}
+          {activeTab === "automation" && (
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold tracking-tight">Automation</h2>
+              <p className="text-muted-foreground">
+                Validate and apply configuration templates across your devices.
+              </p>
+              <AutomationPanel />
+            </div>
+          )}
           {activeTab === "backups" && (
             <div className="space-y-6">
               <h2 className="text-3xl font-bold tracking-tight">Backup Jobs</h2>
@@ -115,6 +150,15 @@ function App() {
                 Monitor and manage backup operations
               </p>
               <BackupJobsDashboard />
+            </div>
+          )}
+          {activeTab === "audit" && (
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold tracking-tight">Audit Logs</h2>
+              <p className="text-muted-foreground">
+                Review recent administrative actions and platform changes.
+              </p>
+              <AuditLogsPanel />
             </div>
           )}
           {activeTab === "settings" && <SettingsPanel />}

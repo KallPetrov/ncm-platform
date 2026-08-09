@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from typing import Optional
 
@@ -6,9 +6,10 @@ from typing import Optional
 class ConfigurationBase(BaseModel):
     device_id: int
     version: int
-    config_hash: str
-    file_path: str
-    file_size: int
+    content: Optional[str] = None
+    config_hash: Optional[str] = None
+    file_path: Optional[str] = None
+    file_size: Optional[int] = None
     is_changed: bool = False
     change_summary: Optional[str] = None
 
@@ -26,8 +27,7 @@ class ConfigurationInDB(ConfigurationBase):
     id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class Configuration(ConfigurationInDB):
@@ -38,19 +38,19 @@ class ConfigurationListItem(BaseModel):
     id: int
     device_id: int
     version: int
-    config_hash: str
-    file_size: int
+    content: Optional[str] = None
+    config_hash: Optional[str] = None
+    file_size: Optional[int] = None
     is_changed: bool
     change_summary: Optional[str] = None
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class ConfigurationDiff(BaseModel):
     device_id: int
     version_a: int
     version_b: int
-    diff_output: str
+    diff_output: Optional[str] = None
     summary: Optional[str] = None

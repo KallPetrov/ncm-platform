@@ -124,6 +124,32 @@ class ApiClient {
     return this.request<any>(`/configurations/device/${deviceId}/diff?version_a=${versionA}&version_b=${versionB}`)
   }
 
+  async getDashboardOverview(): Promise<any> {
+    return this.request<any>("/dashboard/overview")
+  }
+
+  async getDeviceCompliance(deviceId: number): Promise<any> {
+    return this.request<any>(`/configurations/device/${deviceId}/compliance`)
+  }
+
+  async getAutomationTemplates(): Promise<any[]> {
+    return this.request<any[]>("/automation/templates")
+  }
+
+  async validateAutomationTemplate(template: string): Promise<any> {
+    return this.request<any>("/automation/validate-template", {
+      method: "POST",
+      body: JSON.stringify({ template }),
+    })
+  }
+
+  async applyAutomationTemplate(deviceIds: number[], template: string, variables: Record<string, any>): Promise<any> {
+    return this.request<any>("/automation/apply", {
+      method: "POST",
+      body: JSON.stringify({ device_ids: deviceIds, template, variables }),
+    })
+  }
+
   // Backup job endpoints
   async getBackupJobs(skip: number = 0, limit: number = 100, deviceId?: number): Promise<any[]> {
     const params = new URLSearchParams({ skip: skip.toString(), limit: limit.toString() })
@@ -185,6 +211,13 @@ class ApiClient {
 
   async getCurrentUser(): Promise<any> {
     return this.request<any>("/auth/me")
+  }
+
+  async getAuditLogs(limit: number = 100, action?: string, username?: string): Promise<any[]> {
+    const params = new URLSearchParams({ limit: limit.toString() })
+    if (action) params.append("action", action)
+    if (username) params.append("username", username)
+    return this.request<any[]>(`/audit-logs/?${params}`)
   }
 }
 
