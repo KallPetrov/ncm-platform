@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { api } from "@/lib/api"
 import { 
   Database, 
   Bell, 
@@ -16,46 +17,98 @@ import {
 
 export function SettingsPanel() {
   const [loading, setLoading] = React.useState(false)
+  const [fetching, setFetching] = React.useState(true)
   const [saved, setSaved] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
   
   // Database settings
-  const [dbUrl, setDbUrl] = React.useState("postgresql://ncm_user:ncm_password@localhost:5432/ncm_db")
-  const [redisUrl, setRedisUrl] = React.useState("redis://localhost:6379/0")
+  const [dbUrl, setDbUrl] = React.useState("")
+  const [redisUrl, setRedisUrl] = React.useState("")
   
   // Notification settings
   const [enableEmail, setEnableEmail] = React.useState(false)
   const [emailSmtp, setEmailSmtp] = React.useState("")
-  const [emailPort, setEmailPort] = React.useState("587")
+  const [emailPort, setEmailPort] = React.useState("")
   
   // Security settings
-  const [sessionTimeout, setSessionTimeout] = React.useState("30")
-  const [maxLoginAttempts, setMaxLoginAttempts] = React.useState("5")
+  const [sessionTimeout, setSessionTimeout] = React.useState("")
+  const [maxLoginAttempts, setMaxLoginAttempts] = React.useState("")
   
   // Network settings
-  const [apiTimeout, setApiTimeout] = React.useState("30")
-  const [maxConcurrentBackups, setMaxConcurrentBackups] = React.useState("10")
+  const [apiTimeout, setApiTimeout] = React.useState("")
+  const [maxConcurrentBackups, setMaxConcurrentBackups] = React.useState("")
+
+  React.useEffect(() => {
+    loadSettings()
+  }, [])
+
+  const loadSettings = async () => {
+    try {
+      setFetching(true)
+      setError(null)
+      const data = await api.getSettings()
+
+      setDbUrl(data.db_url || "")
+      setRedisUrl(data.redis_url || "")
+      setEnableEmail(data.enable_email ?? false)
+      setEmailSmtp(data.email_smtp || "")
+      setEmailPort(data.email_port || "")
+      setSessionTimeout(data.session_timeout || "30")
+      setMaxLoginAttempts(data.max_login_attempts || "5")
+      setApiTimeout(data.api_timeout || "30")
+      setMaxConcurrentBackups(data.max_concurrent_backups || "10")
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load platform settings")
+    } finally {
+      setFetching(false)
+    }
+  }
 
   const handleSave = async () => {
     setLoading(true)
     setSaved(false)
+    setError(null)
     
-    // Simulate API call to save settings
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    
-    setSaved(true)
-    setLoading(false)
-    
-    setTimeout(() => setSaved(false), 3000)
+    try {
+      await api.updateSettings({
+        db_url: dbUrl,
+        redis_url: redisUrl,
+        enable_email: enableEmail,
+        email_smtp: emailSmtp,
+        email_port: emailPort,
+        session_timeout: sessionTimeout,
+        max_login_attempts: maxLoginAttempts,
+        api_timeout: apiTimeout,
+        max_concurrent_backups: maxConcurrentBackups
+      })
+      setSaved(true)
+      setTimeout(() => setSaved(false), 3000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to save settings")
+    } finally {
+      setLoading(false)
+    }
   }
 
-  const handleTestConnection = async (type: string) => {
+  const handleTestConnection = async (type: string, url: string) => {
     setLoading(true)
-    
-    // Simulate connection test
-    await new Promise(resolve => setTimeout(resolve, 1500))
-    
-    setLoading(false)
-    alert(`${type} connection test successful!`)
+    try {
+      const response = await api.testSettingsConnection(type.toLowerCase(), url)
+      alert(response.message || `${type} connection test successful!`)
+    } catch (err) {
+      alert(err instanceof Error ? err.message : `${type} connection test failed!`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (fetching) {
+    return (
+      <div className="flex items-center justify-center py-12">
+        <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-muted-foreground">Loading platform settings...</span>
+      </div>
+    )
   }
 
   return (
@@ -86,7 +139,13 @@ export function SettingsPanel() {
 
       {saved && (
         <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-md">
-          Settings saved successfully!
+          Platform configurations updated and saved successfully!
+        </div>
+      )}
+
+      {error && (
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+          Error: {error}
         </div>
       )}
 
@@ -133,14 +192,14 @@ export function SettingsPanel() {
               <div className="flex gap-2">
                 <Button 
                   variant="outline" 
-                  onClick={() => handleTestConnection("PostgreSQL")}
+                  onClick={() => handleTestConnection("PostgreSQL", dbUrl)}
                   disabled={loading}
                 >
                   Test PostgreSQL
                 </Button>
                 <Button 
                   variant="outline" 
-                  onClick={() => handleTestConnection("Redis")}
+                  onClick={() => handleTestConnection("Redis", redisUrl)}
                   disabled={loading}
                 >
                   Test Redis

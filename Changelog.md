@@ -5,6 +5,18 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.6] - 2026-08-09
+
+### Added
+- Dynamic Configuration Viewer with device selection and download functionality, eliminating any hardcoded variables
+- Real Backend Settings Panel with PostgreSQL and Redis live connection testing and configurations persistence in `storage/settings.json`
+- Real API endpoints and integration for System Settings under `/settings/` with complete RBAC enforcement and audit trail recording
+- New suite of integration tests for system settings verifying auth, endpoints, and updates in `tests/test_settings.py`
+
+### Fixed
+- Fixed missing `datetime` import in notification service to prevent runtime crashes
+- Created robust `conftest.py` setup to clean the SQLite test database before every test run, fixing all regression test failures
+
 ## [0.4.5] - 2026-08-09
 
 ### Added

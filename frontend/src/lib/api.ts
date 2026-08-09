@@ -219,6 +219,29 @@ class ApiClient {
     if (username) params.append("username", username)
     return this.request<any[]>(`/audit-logs/?${params}`)
   }
+
+  // Settings endpoints
+  async getSettings(): Promise<any> {
+    return this.request<any>("/settings/")
+  }
+
+  async updateSettings(settings: any): Promise<any> {
+    return this.request<any>("/settings/", {
+      method: "PUT",
+      body: JSON.stringify(settings),
+    })
+  }
+
+  async testSettingsConnection(connectionType: string, url: string): Promise<any> {
+    return this.request<any>(`/settings/test-connection/${connectionType}`, {
+      method: "POST",
+      body: JSON.stringify({ url }),
+    })
+  }
+
+  async getConfigurationByVersion(deviceId: number, version: number): Promise<any> {
+    return this.request<any>(`/configurations/device/${deviceId}/version/${version}`)
+  }
 }
 
 export const api = new ApiClient()
