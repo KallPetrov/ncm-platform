@@ -42,7 +42,9 @@ class BackupJob(BackupJobInDB):
 class BackupJobListItem(BaseModel):
     id: int
     device_id: int
+    device_name: Optional[str] = None
     status: str
+    error_message: Optional[str] = None
     started_at: datetime
     completed_at: Optional[datetime] = None
 
