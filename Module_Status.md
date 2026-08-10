@@ -1,6 +1,6 @@
 # NCM Platform - Module Status
 
-**Current Version:** 0.6.0
+**Current Version:** 0.7.0
 **Last Updated:** 2026-08-09  
 **Status:** Development Phase
 
@@ -142,6 +142,39 @@
   - End-to-end browser tests
   - Performance testing
   - Additional service-level regression cases
+- [x] **Configuration Validation** (`app/services/config_validation.py`)
+  - Pre-push syntax checks for network commands
+  - Pre-change / post-change мрежови валидации (автоматични пинг тестове и проверка на статуса на интерфейси)
+- [ ] **Secrets Management Integration**
+  - Интеграция с Enterprise Vaults (HashiCorp Vault, AWS Secrets Manager)
+  - Автоматична ротация на пароли
+- [ ] **Built-in Web Terminal & Session Recording**
+  - Web-based SSH сесия в браузъра (Network PAM proxy)
+  - Keystroke logging и одит на отворените уеб сесии
+- [ ] **Distributed Remote Collectors / Proxies**
+  - Леки отдалечени колектори/агенти за изолирани DMZ/VPC мрежи
+- [ ] **High Availability (HA) & Clustering**
+  - Клъстеризация на контролния панел и worker възлите
+- [ ] **NetBox / Nautobot SSOT Synchronization**
+  - Двупосочна синхронизация на Single Source of Truth
+- [ ] **Basic Network Monitoring (Ping & SNMP)**
+  - Достъпност и трафик графики
+- [ ] **Topology Mapping (CDP/LLDP)**
+  - Автоматично генериране на визуална карта на връзките
+- [ ] **Reporting & Analytics (PDF & Excel)**
+  - Автоматични KPI доклади за съответствие и уязвимости
+- [ ] **AI-Assisted Configuration Analysis & Anomaly Detection**
+  - Обяснение на diff-ове и засичане на необичайни промени през ML
+- [ ] **Predictive Maintenance & EoX Tracking**
+  - Хардуерен статус и следене на вендорски End-of-Life/End-of-Sale дати
+- [ ] **Multi-tenancy & White-labeling**
+  - MSP изолация и брандиране
+- [ ] **Configuration Drift Auto-Remediation**
+  - Автоматичен rollback при засечена неоторизирана промяна
+- [ ] **Zero-Touch Provisioning (ZTP)**
+  - Автоматично конфигуриране при първо включване на устройство
+- [ ] **Vulnerability & CVE Correlation**
+  - Автоматично съпоставяне на OS версии с CVE уязвимости
 
 ### ✅ Completed
 - [x] **Audit & RBAC Foundation** (`app/services/audit.py`, `app/api/audit_logs.py`)
