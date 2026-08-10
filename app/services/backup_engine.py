@@ -43,7 +43,10 @@ class BackupEngine:
                     'error_message': result['error_message']
                 }
             
-            configuration = result['configuration']
+            from app.services.sanitization import SanitizationService
+            raw_configuration = result['configuration']
+            device_type_str = device.device_type.value if hasattr(device.device_type, "value") else str(device.device_type)
+            configuration = SanitizationService.sanitize_configuration(raw_configuration, device_type_str)
             
             # Get latest configuration version for this device
             latest_config = db.query(Configuration).filter(

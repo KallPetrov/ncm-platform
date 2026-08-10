@@ -5,6 +5,15 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0] - 2026-08-09
+
+### Added
+- Fully implemented **Config Data Sanitization & Redaction Engine** (`app/services/sanitization.py`) utilizing robust, multi-vendor regex-based matching to securely strip, mask, and redact sensitive attributes from backups.
+- Automatically handles redaction of Cisco-style secrets and passwords, Juniper-style encrypted secrets, Pre-Shared Keys (PSKs/IKE/IPsec), SNMP communities, SSH keys, and PEM-formatted Private Keys.
+- Integrated `SanitizationService` directly into `BackupEngine.perform_backup` to automatically sanitize configurations immediately upon retrieval from devices, ensuring no plain secrets reach the database or Git storage.
+- Created `/configurations/sanitize` API endpoint allowing secure preview and manually testing configuration sanitization.
+- Implemented automated backend unit and integration tests inside `tests/test_sanitization.py` with 100% success.
+
 ## [0.4.9] - 2026-08-09
 
 ### Added
