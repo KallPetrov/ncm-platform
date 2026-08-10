@@ -1,6 +1,6 @@
 # NCM Platform - Module Status
 
-**Current Version:** 0.5.0
+**Current Version:** 0.6.0
 **Last Updated:** 2026-08-09  
 **Status:** Development Phase
 
@@ -62,6 +62,13 @@
   - Template validation
   - Predefined templates
   - Rollback functionality
+
+- [x] **Firmware / OS Upgrade Automation** (`app/services/firmware_upgrade.py`, `app/api/firmware.py`)
+  - Automated firmware/OS upgrades for devices
+  - Pre-checks (verification of active version and free storage space)
+  - MD5/SHA256 checksum validation on the device
+  - Automated reload and post-checks wait loop
+  - Automatic fallback/rollback to generic/previous configuration on failure or connection loss
   
 - [x] **Compliance Engine** (`app/services/compliance.py`)
   - Security rule checking

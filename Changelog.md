@@ -5,6 +5,17 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0] - 2026-08-09
+
+### Added
+- Fully implemented **Firmware / OS Upgrade Automation** (`app/services/firmware_upgrade.py`, `app/api/firmware.py`, `app/models/firmware.py`) with models, schemas, database registration, and automatic pre-checks/post-checks.
+- Automated pre-checks verifying target version mismatch and calculating free storage space.
+- Automatic verification of firmware images using MD5/SHA256 checksum check on the destination device.
+- Automated system restart (reload) and a connection retry wait loop to check post-install status.
+- Automatic rollback / fallback trigger that reverts the boot image if post-checks fail or connection timeout occurs.
+- Implemented `/firmware/images` upload, `/firmware/upgrade` start, and `/firmware/jobs/{job_id}` status query endpoints.
+- Developed comprehensive automated backend unit and integration tests inside `tests/test_firmware_upgrade.py`.
+
 ## [0.5.0] - 2026-08-09
 
 ### Added
