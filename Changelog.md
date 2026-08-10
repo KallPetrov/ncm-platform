@@ -5,6 +5,14 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.0] - 2026-08-09
+
+### Added
+- Completed auditing and mapping 100% of all listed core and extended modules in `Module_Status.md` for complete product transparency.
+- Fully implemented **Configuration Validation** (`app/services/config_validation.py`) supporting pre-push syntax validations, multiplatform reachability validations, and operational state comparisons.
+- Added API endpoint `/configurations/validate-commands` allowing on-demand checks on devices prior to configuration updates.
+- Added integration unit and component tests inside `tests/test_config_validation.py` passing with 100% success.
+
 ## [0.6.0] - 2026-08-09
 
 ### Added

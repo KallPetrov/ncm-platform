@@ -247,6 +247,31 @@ def sanitize_configuration_preview(
     }
 
 
+@router.post("/validate-commands")
+def validate_commands_route(
+    payload: dict,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Perform pre/post change and syntax validation for commands on a device.
+    """
+    device_id = payload.get("device_id")
+    commands = payload.get("commands", [])
+
+    if not device_id or not commands:
+        raise HTTPException(status_code=400, detail="device_id and commands are required")
+
+    device = db.query(DeviceModel).filter(DeviceModel.id == device_id).first()
+    if not device:
+        raise HTTPException(status_code=404, detail="Device not found")
+
+    from app.services.config_validation import ConfigurationValidationService
+    result = ConfigurationValidationService.run_pre_post_validation(device, commands, db)
+
+    return result
+
+
 @router.delete("/{configuration_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_configuration(
     configuration_id: int,

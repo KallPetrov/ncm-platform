@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     
     # Application
     APP_NAME: str = "NCM Platform"
-    APP_VERSION: str = "0.6.0"
+    APP_VERSION: str = "0.7.0"
     DEBUG: bool = True
     
     # Backup Settings
