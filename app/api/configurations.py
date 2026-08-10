@@ -225,6 +225,28 @@ def get_configuration_compliance(
     }
 
 
+@router.post("/sanitize")
+def sanitize_configuration_preview(
+    payload: dict,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Sanitize and redact secrets from raw configuration content.
+    """
+    content = payload.get("content", "")
+    device_type = payload.get("device_type")
+
+    from app.services.sanitization import SanitizationService
+    sanitized_content = SanitizationService.sanitize_configuration(content, device_type)
+
+    return {
+        "original_size": len(content),
+        "sanitized_size": len(sanitized_content),
+        "sanitized_content": sanitized_content
+    }
+
+
 @router.delete("/{configuration_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_configuration(
     configuration_id: int,

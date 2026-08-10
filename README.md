@@ -1,6 +1,6 @@
 # NCM Platform - Network Configuration Management
 
-**Version:** 0.4.9
+**Version:** 0.5.0
 **Status:** Development Phase  
 **Last Updated:** 2026-08-09
 
@@ -10,6 +10,7 @@ Self-hosted Network Configuration Management platform inspired by Unimus. Built 
 
 The project now includes a working end-to-end foundation for network configuration management:
 
+- **Config Data Sanitization & Redaction Engine** - Real-time regex-based detection and masking of sensitive credentials (passwords, enable secrets, Pre-Shared Keys, private keys, SNMP communities) from the retrieved backups.
 - Device lifecycle management with CRUD operations and backup triggering
 - Configuration versioning and real configuration inspection
 - Compliance evaluation with report summaries and rule-level details

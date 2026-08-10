@@ -1,6 +1,6 @@
 # NCM Platform - Module Status
 
-**Current Version:** 0.4.9
+**Current Version:** 0.5.0
 **Last Updated:** 2026-08-09  
 **Status:** Development Phase
 
