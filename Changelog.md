@@ -5,6 +5,15 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2026-08-09
+
+### Added
+- Fully implemented **Built-in Web Terminal & Session Recording** (`app/services/web_ssh.py`, `app/api/web_ssh.py`, `app/models/web_ssh.py`) for complete PAM terminal management.
+- Implemented secure token-based SSH Session establishment (Network PAM Proxy) hiding plain credentials from the client side.
+- Developed real-time command / keystroke capture and output-logging engine (Keystroke Logging) for audits and compliance.
+- Restored admin-only secure restrictions for viewing and reviewing terminal logs.
+- Added automated backend unit and integration tests inside `tests/test_web_ssh.py` with 100% success.
+
 ## [0.7.0] - 2026-08-09
 
 ### Added

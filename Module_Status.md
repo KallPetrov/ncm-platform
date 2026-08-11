@@ -1,6 +1,6 @@
 # NCM Platform - Module Status
 
-**Current Version:** 0.7.0
+**Current Version:** 0.8.0
 **Last Updated:** 2026-08-09  
 **Status:** Development Phase
 
@@ -148,7 +148,7 @@
 - [ ] **Secrets Management Integration**
   - Интеграция с Enterprise Vaults (HashiCorp Vault, AWS Secrets Manager)
   - Автоматична ротация на пароли
-- [ ] **Built-in Web Terminal & Session Recording**
+- [x] **Built-in Web Terminal & Session Recording** (`app/services/web_ssh.py`, `app/api/web_ssh.py`)
   - Web-based SSH сесия в браузъра (Network PAM proxy)
   - Keystroke logging и одит на отворените уеб сесии
 - [ ] **Distributed Remote Collectors / Proxies**
