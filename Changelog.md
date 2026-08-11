@@ -5,6 +5,16 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [01.00.00] - 2026-08-10
+
+### Changed
+- Replaced all default simulated/mock fallback logic with fully functional, real-world live data integration across advanced modules.
+- Refactored `SSOTSyncService` in `app/services/ssot_sync.py` to disable simulated NetBox mock values by default and execute real HTTP integration unless `TESTING=1` environment variable is explicitly active.
+- Refactored `TopologyService` in `app/services/topology.py` to run live CDP neighbors discovery commands by default, fallbacking to simulated topological edges only when `TESTING=1` is active.
+- Refactored `SecretsVaultService` in `app/services/secrets_vault.py` to enforce live device credentials rotation commands by default, using simulation only during automated test coverage under `TESTING=1`.
+- Standardized multiplatform OS compatibility for live connections, ping, and configuration management operations.
+- Bumped platform and frontend version metadata to `01.00.00` across configuration files, documentation, and package metadata.
+
 ## [0.9.0] - 2026-08-09
 
 ### Added

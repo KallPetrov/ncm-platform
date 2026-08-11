@@ -1,4 +1,5 @@
 import httpx
+import os
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from app.models.device import Device, DeviceType, DeviceStatus
@@ -15,7 +16,7 @@ class SSOTSyncService:
 
     @classmethod
     def sync_devices_from_netbox(
-        cls, db: Session, netbox_url: str, api_token: str, is_testing: bool = True
+        cls, db: Session, netbox_url: str, api_token: str, is_testing: Any = None
     ) -> Dict[str, Any]:
         """
         Synchronizes device inventory from NetBox to local NCM:
@@ -23,6 +24,9 @@ class SSOTSyncService:
         2. Compares IP addresses and hostnames.
         3. Imports missing devices and updates modified ones.
         """
+        if is_testing is None:
+            is_testing = os.getenv("TESTING") == "1"
+
         if is_testing:
             # Simulated NetBox API Response for validation
             netbox_devices = [
@@ -116,7 +120,7 @@ class SSOTSyncService:
 
     @classmethod
     def push_local_changes_to_netbox(
-        cls, db: Session, device_id: int, netbox_url: str, api_token: str, is_testing: bool = True
+        cls, db: Session, device_id: int, netbox_url: str, api_token: str, is_testing: Any = None
     ) -> Dict[str, Any]:
         """
         Publishes discovered local hardware/OS details back to NetBox to ensure
@@ -132,6 +136,9 @@ class SSOTSyncService:
                 "ncm_os_version": device.model or "unknown"
             }
         }
+
+        if is_testing is None:
+            is_testing = os.getenv("TESTING") == "1"
 
         if is_testing:
             success = True
