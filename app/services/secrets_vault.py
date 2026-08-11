@@ -1,5 +1,7 @@
 from datetime import datetime
 import secrets
+import os
+from typing import Any
 from sqlalchemy.orm import Session
 from cryptography.fernet import Fernet
 from app.models.device import Device
@@ -52,7 +54,7 @@ class SecretsVaultService:
 
     @classmethod
     def rotate_device_password(
-        cls, db: Session, device_id: int, new_password: str, is_testing: bool = False
+        cls, db: Session, device_id: int, new_password: str, is_testing: Any = None
     ) -> dict:
         """
         Automates device password rotation:
@@ -67,6 +69,9 @@ class SecretsVaultService:
 
         # Generate command for password update (Cisco IOS syntax example)
         rotation_command = f"username {device.username} password {new_password}"
+
+        if is_testing is None:
+            is_testing = os.getenv("TESTING") == "1"
 
         # 1. Apply password update on real device
         if is_testing:

@@ -1,4 +1,5 @@
 import re
+import os
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
 from app.models.device import Device
@@ -14,13 +15,16 @@ class TopologyService:
     """
 
     @classmethod
-    def discover_topology_edges(cls, db: Session, is_testing: bool = True) -> List[Dict[str, Any]]:
+    def discover_topology_edges(cls, db: Session, is_testing: Any = None) -> List[Dict[str, Any]]:
         """
         Gathers LLDP and CDP neighbors from devices to construct the network graph.
         Returns a list of links (edges) representing the topological connections.
         """
         devices = db.query(Device).all()
         edges = []
+
+        if is_testing is None:
+            is_testing = os.getenv("TESTING") == "1"
 
         if is_testing:
             # Simulated topology edges for testing/simulation purposes
