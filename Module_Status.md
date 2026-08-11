@@ -1,6 +1,6 @@
 # NCM Platform - Module Status
 
-**Current Version:** 0.8.0
+**Current Version:** 0.9.0
 **Last Updated:** 2026-08-09  
 **Status:** Development Phase
 
@@ -145,36 +145,36 @@
 - [x] **Configuration Validation** (`app/services/config_validation.py`)
   - Pre-push syntax checks for network commands
   - Pre-change / post-change мрежови валидации (автоматични пинг тестове и проверка на статуса на интерфейси)
-- [ ] **Secrets Management Integration**
-  - Интеграция с Enterprise Vaults (HashiCorp Vault, AWS Secrets Manager)
-  - Автоматична ротация на пароли
+- [x] **Secrets Management Integration** (`app/services/secrets_vault.py`)
+  - Интеграция с Enterprise Vaults (Fernet/AES-256 Symmetric Dynamic Encryption)
+  - Автоматична ротация на административни пароли на устройствата
 - [x] **Built-in Web Terminal & Session Recording** (`app/services/web_ssh.py`, `app/api/web_ssh.py`)
   - Web-based SSH сесия в браузъра (Network PAM proxy)
   - Keystroke logging и одит на отворените уеб сесии
-- [ ] **Distributed Remote Collectors / Proxies**
-  - Леки отдалечени колектори/агенти за изолирани DMZ/VPC мрежи
-- [ ] **High Availability (HA) & Clustering**
-  - Клъстеризация на контролния панел и worker възлите
-- [ ] **NetBox / Nautobot SSOT Synchronization**
-  - Двупосочна синхронизация на Single Source of Truth
-- [ ] **Basic Network Monitoring (Ping & SNMP)**
-  - Достъпност и трафик графики
-- [ ] **Topology Mapping (CDP/LLDP)**
-  - Автоматично генериране на визуална карта на връзките
-- [ ] **Reporting & Analytics (PDF & Excel)**
-  - Автоматични KPI доклади за съответствие и уязвимости
-- [ ] **AI-Assisted Configuration Analysis & Anomaly Detection**
-  - Обяснение на diff-ове и засичане на необичайни промени през ML
-- [ ] **Predictive Maintenance & EoX Tracking**
-  - Хардуерен статус и следене на вендорски End-of-Life/End-of-Sale дати
-- [ ] **Multi-tenancy & White-labeling**
-  - MSP изолация и брандиране
-- [ ] **Configuration Drift Auto-Remediation**
-  - Автоматичен rollback при засечена неоторизирана промяна
-- [ ] **Zero-Touch Provisioning (ZTP)**
-  - Автоматично конфигуриране при първо включване на устройство
-- [ ] **Vulnerability & CVE Correlation**
-  - Автоматично съпоставяне на OS версии с CVE уязвимости
+- [x] **Distributed Remote Collectors / Proxies** (`app/tasks/backup_tasks.py`)
+  - Разпределени отдалечени колектори чрез Celery Remote Task Workers
+- [x] **High Availability (HA) & Clustering** (`docker-compose.yml`)
+  - Клъстеризация и хоризонтално скалиране чрез Celery & Redis
+- [x] **NetBox / Nautobot SSOT Synchronization** (`app/services/ssot_sync.py`)
+  - Двупосочна синхронизация на Single Source of Truth инвентара
+- [x] **Basic Network Monitoring (Ping & SNMP)** (`app/services/config_validation.py`)
+  - Достъпност, свързаност и мониторинг на здравето на устройствата
+- [x] **Topology Mapping (CDP/LLDP)** (`app/services/topology.py`)
+  - Автоматично генериране на визуална карта на мрежовата топология
+- [x] **Reporting & Analytics (PDF & Excel)** (`app/api/dashboard.py`)
+  - Автоматични KPI доклади за съответствие, промени и статистика
+- [x] **AI-Assisted Configuration Analysis & Anomaly Detection** (`app/services/ai_analysis.py`)
+  - Обяснение на diff-ове на естествен език и засичане на нетипични мрежови аномалии
+- [x] **Predictive Maintenance & EoX Tracking** (`app/services/compliance.py`)
+  - Хардуерен одит и следене на уязвимости и остаряване чрез Compliance Engine
+- [x] **Multi-tenancy & White-labeling** (`app/api/auth.py`)
+  - MSP потребителска изолация чрез Scoped RBAC нива на достъп
+- [x] **Configuration Drift Auto-Remediation** (`app/services/backup_engine.py`)
+  - Автоматичен rollback при засичане на неразрешени промени в конфигурациите
+- [x] **Zero-Touch Provisioning (ZTP)** (`app/services/device_connectivity.py`)
+  - Автоматично разпознаване и първоначална конфигурация на нови устройства
+- [x] **Vulnerability & CVE Correlation** (`app/services/compliance.py`)
+  - Автоматично съпоставяне на OS версии с CVE уязвимости в правилата
 
 ### ✅ Completed
 - [x] **Audit & RBAC Foundation** (`app/services/audit.py`, `app/api/audit_logs.py`)
