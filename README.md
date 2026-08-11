@@ -1,6 +1,6 @@
 # NCM Platform - Network Configuration Management
 
-**Version:** 0.8.0
+**Version:** 0.9.0
 **Status:** Development Phase  
 **Last Updated:** 2026-08-09
 
@@ -10,6 +10,10 @@ Self-hosted Network Configuration Management platform inspired by Unimus. Built 
 
 The project now includes a working end-to-end foundation for network configuration management:
 
+- **AI-Assisted Configuration Analysis & Anomaly Detection** - Automated natural Bulgarian language explanations of diffs and heuristics-based security scans.
+- **Secrets Vault & Password Rotation Service** - Fernet dynamic symmetric encryption at rest and automated credential rotation workflow.
+- **NetBox / Nautobot SSOT Synchronization Service** - Importing/exporting devices and metadata from Single Source of Truth database.
+- **Basic Network Monitoring & Topology Mapping Service** - LLDP/CDP neighbor discovery and topological edge construction.
 - **Built-in Web Terminal & Session Recording** - Secure token-based terminal access directly in the browser (Network PAM proxy), hiding credentials from clients, while executing and logging keystrokes, commands, and outputs for strict NIS2 and audit compliance.
 - **Configuration Validation** - Pre-push syntax checking of network commands, and automated pre-change / post-change multiplatform reachability (ping) and operational interface validations.
 - **Firmware / OS Upgrade Automation** - Fully automated, schedule-driven firmware and operating system upgrades on network devices. Includes robust pre-checks (disk space, target version verification), MD5 checksum verification, and automatic rollback triggers upon failure or timeout.

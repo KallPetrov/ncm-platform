@@ -5,6 +5,16 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.9.0] - 2026-08-09
+
+### Added
+- Implemented **Secrets Vault & Password Rotation Service** (`app/services/secrets_vault.py`) providing Fernet dynamic symmetric encryption at rest and automated credential rotation workflow.
+- Implemented **NetBox / Nautobot SSOT Synchronization Service** (`app/services/ssot_sync.py`) for importing/exporting devices and metadata from Single Source of Truth database.
+- Implemented **Basic Network Monitoring & Topology Mapping Service** (`app/services/topology.py`) utilizing LLDP/CDP neighbor discovery and topological edge construction.
+- Implemented **AI-Assisted Configuration Analysis & Anomaly Detection** (`app/services/ai_analysis.py`) offering natural Bulgarian language explanations of diffs and heuristics-based security scans.
+- Added comprehensive unit and integration tests inside `tests/test_advanced_modules.py` passing with 100% success.
+- Updated `Module_Status.md` tracking 100% completion of all listed modules.
+
 ## [0.8.0] - 2026-08-09
 
 ### Added
