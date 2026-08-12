@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api import devices, configurations, backup_jobs, auth, users, dashboard, automation, change_management, audit_logs, settings as api_settings, firmware, web_ssh
+from app.api import devices, configurations, backup_jobs, auth, users, dashboard, automation, change_management, audit_logs, settings as api_settings, firmware, web_ssh, ai
 import logging
 
 logging.basicConfig(level=logging.INFO)
@@ -38,6 +38,7 @@ app.include_router(audit_logs.router)
 app.include_router(api_settings.router)
 app.include_router(firmware.router)
 app.include_router(web_ssh.router)
+app.include_router(ai.router)
 
 
 @app.get("/")

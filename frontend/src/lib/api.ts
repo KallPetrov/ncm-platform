@@ -249,6 +249,18 @@ class ApiClient {
       body: JSON.stringify({ username, email, new_password: newPassword }),
     })
   }
+
+  // AI Assistant endpoints
+  async chatWithAI(message: string): Promise<{ response: string; suggested_queries: string[] }> {
+    return this.request<any>("/ai/chat", {
+      method: "POST",
+      body: JSON.stringify({ message }),
+    })
+  }
+
+  async getAISuggestions(): Promise<string[]> {
+    return this.request<string[]>("/ai/suggestions")
+  }
 }
 
 export const api = new ApiClient()
