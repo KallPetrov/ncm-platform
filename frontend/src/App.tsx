@@ -8,8 +8,9 @@ import { DashboardOverview } from "./components/DashboardOverview"
 import { ComplianceReports } from "./components/ComplianceReports"
 import { AutomationPanel } from "./components/AutomationPanel"
 import { AuditLogsPanel } from "./components/AuditLogsPanel"
+import { AIAssistantPanel } from "./components/AIAssistantPanel"
 import { Button } from "./components/ui/button"
-import { Settings, Server, FileText, Activity, Menu, LogOut, LayoutDashboard, ShieldCheck, Zap, History } from "lucide-react"
+import { Settings, Server, FileText, Activity, Menu, LogOut, LayoutDashboard, ShieldCheck, Zap, History, Sparkles } from "lucide-react"
 import { api } from "./lib/api"
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
     { id: "configurations", label: "Configurations", icon: FileText },
     { id: "compliance", label: "Compliance", icon: ShieldCheck },
     { id: "automation", label: "Automation", icon: Zap },
+    { id: "ai-assistant", label: "AI Асистент", icon: Sparkles },
     { id: "backups", label: "Backup Jobs", icon: Activity },
     { id: "audit", label: "Audit Logs", icon: History },
     { id: "settings", label: "Settings", icon: Settings },
@@ -141,6 +143,15 @@ function App() {
                 Validate and apply configuration templates across your devices.
               </p>
               <AutomationPanel />
+            </div>
+          )}
+          {activeTab === "ai-assistant" && (
+            <div className="space-y-6">
+              <h2 className="text-3xl font-bold tracking-tight">AI Асистент</h2>
+              <p className="text-muted-foreground">
+                Интелигентен асистент за мрежови анализи, одит и генериране на конфигурации на български език.
+              </p>
+              <AIAssistantPanel />
             </div>
           )}
           {activeTab === "backups" && (

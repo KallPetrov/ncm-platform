@@ -5,6 +5,15 @@ All notable changes to the NCM Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [01.01.00] - 2026-08-10
+
+### Added
+- Добавен е интелигентен **AI Асистент** за платформата (`app/services/ai_assistant.py` и `app/api/ai.py`).
+- Асистентът е напълно интегриран с базата данни (SQLite/PostgreSQL) и анализира в реално время реалния инвентар, статус на устройствата, конфигурационни аномалии и логове за одит.
+- Създадено е уеб-базирано интерфейсно табло за чат с AI в реално време (`frontend/src/components/AIAssistantPanel.tsx`) и е интегрирано в основното меню на React приложението.
+- Добавен е широк набор от автоматизирани тестове (`tests/test_ai_assistant.py`) с 100% успеваемост.
+- Обновена е версията на проекта на `01.01.00` във всички основни файлове (`app/core/config.py`, `frontend/package.json`, `README.md`).
+
 ## [01.00.00] - 2026-08-10
 
 ### Changed

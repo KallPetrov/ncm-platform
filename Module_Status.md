@@ -1,10 +1,17 @@
 # NCM Platform - Module Status
 
-**Current Version:** 01.00.00
+**Current Version:** 01.01.00
 **Last Updated:** 2026-08-10
 **Status:** Production Ready / Release Phase
 
 ## Backend Modules
+
+### ✅ Completed
+- [x] **AI Асистент (AI Assistant)** (`app/services/ai_assistant.py`, `app/api/ai.py`)
+  - Пълна интеграция с базата данни (реална статистика, офлайн/онлайн статуси, конфигурационни аномалии и одит логове).
+  - Поддръжка на интерактивен разговор на чист български език.
+  - Ръководства за мрежови протоколи (OSPF, BGP, SSH, VLAN) и стъпка-по-стъпка насоки за работа с платформата.
+  - 100% покритие с автоматизирани интеграционни тестове (`tests/test_ai_assistant.py`).
 
 ### ✅ Completed
 - [x] **Database Models** (`app/models/`)
@@ -194,6 +201,11 @@
   - Refresh action and clear presentation of audit activity
 
 ## Frontend Modules
+
+### ✅ Completed
+- [x] **AI Асистент UI (AI Assistant Panel)** (`frontend/src/components/AIAssistantPanel.tsx`)
+  - Панел за уеб чат в реално време, напълно интегриран с API за AI предложения и свободен разговор.
+  - Добавен нов раздел в главното навигационно меню на уеб платформата.
 
 ### ✅ Completed
 - [x] **Project Setup**
