@@ -154,6 +154,9 @@
 - [x] **Secrets Management Integration** (`app/services/secrets_vault.py`)
   - Интеграция с Enterprise Vaults (Fernet/AES-256 Symmetric Dynamic Encryption)
   - Автоматична ротация на административни пароли на устройствата
+- [x] **Криптографски Лицензионен Мениджър (License Manager)** (`app/services/license_manager.py`)
+  - Криптографска система за офлайн лицензи с едногодишна годност и устройствови ограничения.
+  - Интегриран генератор на клиентиски ключове (`scripts/generate_license.py`).
 - [x] **Built-in Web Terminal & Session Recording** (`app/services/web_ssh.py`, `app/api/web_ssh.py`)
   - Web-based SSH сесия в браузъра (Network PAM proxy)
   - Keystroke logging и одит на отворените уеб сесии
@@ -310,6 +313,7 @@
 - [x] User guide (`docs/User_Guide.md`)
 - [x] Developer guide (`docs/Developer_Guide.md`)
 - [x] Deployment guide (`docs/Deployment_Guide.md`)
+- [x] Licensing guide (`docs/licensing/Licensing_Guide.md`)
 
 ## Deployment
 
