@@ -78,7 +78,7 @@ export function LoginForm({ onLoginSuccess }: LoginFormProps) {
       <Card className="w-full max-w-md">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-2xl">NCM Platform</CardTitle>
+            <CardTitle className="text-2xl">LANi-Platform</CardTitle>
             {mode !== "login" && (
               <Button
                 variant="ghost"

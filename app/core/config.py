@@ -18,8 +18,8 @@ class Settings(BaseSettings):
     GIT_REPO_PATH: str = "./storage/configs"
     
     # Application
-    APP_NAME: str = "NCM Platform"
-    APP_VERSION: str = "01.00.00"
+    APP_NAME: str = "LANi-Platform"
+    APP_VERSION: str = "01.02.00"
     DEBUG: bool = True
     
     # Backup Settings

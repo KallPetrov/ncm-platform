@@ -1,4 +1,4 @@
-# NCM Platform - Network Configuration Management
+# LANi-Platform - Network Configuration Management
 
 **Version:** 01.00.00
 **Status:** Production Ready / Release Phase
