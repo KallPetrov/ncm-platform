@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     
     # Application
     APP_NAME: str = "LANi-Platform"
-    APP_VERSION: str = "01.02.00"
+    APP_VERSION: str = "01.03.00"
     DEBUG: bool = True
     
     # Backup Settings
