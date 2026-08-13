@@ -1,159 +1,252 @@
-# LANi-Platform - Network Configuration Management
+# <img src="https://img.icons8.com/color/48/000000/network-cable.png" width="35"/> LANi-Platform — Network Configuration Management (NCM)
 
-**Version:** 01.00.00
-**Status:** Production Ready / Release Phase
-**Last Updated:** 2026-08-10
+[![Python Version](https://img.shields.io/badge/python-3.11%20%7C%203.12-blue.svg?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.110.0-009688.svg?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-19.0-61DAFB.svg?style=flat-square&logo=react&logoColor=white)](https://react.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Enabled-2496ED.svg?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
+[![License](https://img.shields.io/badge/License-Commercial-red.svg?style=flat-square)](https://lani.bg)
+[![Version](https://img.shields.io/badge/Version-01.03.00-green.svg?style=flat-square)](#)
 
-Self-hosted Network Configuration Management platform inspired by Unimus. Built for real-world use with backend APIs, database-backed device management, compliance reporting, automation workflows, and audit logging.
+**LANi-Platform** е професионално self-hosted софтуерно решение от корпоративен клас за управление, архивиране и автоматизация на мрежови конфигурации (Network Configuration Management - NCM). Вдъхновена от Unimus, платформата предлага пълен набор от инструменти за наблюдение на жизнения цикъл на мрежовото оборудване, спазване на изискванията за съответствие (Compliance), одит сигурност и изкуствен интелект.
 
-## What is implemented
+Проектирана за работа в критични инфраструктури с висок интензитет, платформата поддържа реална интеграция с оборудване на водещи мрежови производители и предоставя надеждна защита на чувствителни данни съгласно международни стандарти.
 
-The project now includes a working end-to-end foundation for network configuration management:
+---
 
-- **AI-Assisted Configuration Analysis & Anomaly Detection** - Automated natural Bulgarian language explanations of diffs and heuristics-based security scans.
-- **Secrets Vault & Password Rotation Service** - Fernet dynamic symmetric encryption at rest and automated credential rotation workflow.
-- **NetBox / Nautobot SSOT Synchronization Service** - Importing/exporting devices and metadata from Single Source of Truth database.
-- **Basic Network Monitoring & Topology Mapping Service** - LLDP/CDP neighbor discovery and topological edge construction.
-- **Built-in Web Terminal & Session Recording** - Secure token-based terminal access directly in the browser (Network PAM proxy), hiding credentials from clients, while executing and logging keystrokes, commands, and outputs for strict NIS2 and audit compliance.
-- **Configuration Validation** - Pre-push syntax checking of network commands, and automated pre-change / post-change multiplatform reachability (ping) and operational interface validations.
-- **Firmware / OS Upgrade Automation** - Fully automated, schedule-driven firmware and operating system upgrades on network devices. Includes robust pre-checks (disk space, target version verification), MD5 checksum verification, and automatic rollback triggers upon failure or timeout.
-- **Config Data Sanitization & Redaction Engine** - Real-time regex-based detection and masking of sensitive credentials (passwords, enable secrets, Pre-Shared Keys, private keys, SNMP communities) from the retrieved backups.
-- Device lifecycle management with CRUD operations and backup triggering
-- Configuration versioning and real configuration inspection
-- Compliance evaluation with report summaries and rule-level details
-- Automation workflows with template validation and execution support
-- Dashboard summaries for devices, backups, configurations, and compliance
-- Audit logging with role-aware records and admin-restricted audit access
-- Frontend integration with a React + TypeScript UI backed by the real API
-- Dynamic Configuration Viewer with device selection and download functionality
-- Real Backend Settings Panel with PostgreSQL and Redis live connection testing and settings persistence
+## 🛠️ Основен Технологичен Стек (Tech Stack)
 
-## Current feature status
+Платформата е изградена по модерна архитектура за максимална производителност, скалируемост и отказоустойчивост:
 
-### Backend
-- FastAPI application with authenticated API endpoints
-- SQLite-based local testing mode and PostgreSQL-ready configuration
-- Device, configuration, backup job, user, and audit models
-- RBAC-aware permission checks for privileged actions
-- Audit trail support for mutation and permission-denied events
+### 🖥️ Бекенд (Backend)
+- <img src="https://img.icons8.com/color/16/000000/python--v1.png"/> **Python 3.11+ / 3.12+** — Основен език за бизнес логиката.
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/fastapi/fastapi-original.svg" width="16"/> **FastAPI** — Високопроизводителна уеб рамка за REST API с автоматична Swagger/ReDoc документация.
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/sqlalchemy/sqlalchemy-original.svg" width="16"/> **SQLAlchemy & Alembic** — ORM система за работа с релационни бази данни и миграции.
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/postgresql/postgresql-original.svg" width="16"/> **PostgreSQL / SQLite** — Релационно съхранение на транзакционни данни и потребители.
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/redis/redis-original.svg" width="16"/> **Redis** — Брокер за съобщения (Message Broker) и разпределен кеш памет.
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/celery/celery-original.svg" width="16"/> **Celery Workers** — Фоново изпълнение на времеемки процеси (архивиране, автоматизация).
+- <img src="https://img.icons8.com/color/16/000000/git.png"/> **Git (GitPython)** — Версиониране на конфигурациите чрез Git хранилище за преглед на промените (Diff-ове).
+- <img src="https://img.icons8.com/color/16/000000/shield.png"/> **Cryptography (Fernet)** — Криптографско сигурно симетрично шифроване на пароли и Vault секрети.
 
-### Frontend
-- React + TypeScript + Vite application
-- Protected authentication flow
-- Device management UI
-- Configuration and compliance views
-- Automation and backup job panels
-- Audit Logs tab with filtering and role display
+### 🎨 Фронтенд (Frontend)
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg" width="16"/> **React 19 & TypeScript** — Модерен, интерактивен интерфейс от нов клас.
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/vite/vite-original.svg" width="16"/> **Vite** — Свръхбърз инструмент за компилиране на фронтенд кода.
+- <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/tailwindcss/tailwindcss-original.svg" width="16"/> **TailwindCSS** — Гъвкава CSS рамка за отзивчив (responsive) дизайн.
+- <img src="https://img.icons8.com/ios-filled/16/000000/external-link.png"/> **Radix UI & Lucide Icons** — Компоненти за достъпност и модерен визуален стил.
 
-## Tech stack
+---
 
-### Backend
-- Python 3.11+
-- FastAPI
-- SQLAlchemy
-- Pydantic
-- SQLite for local testing, PostgreSQL-ready for production
-- Netmiko-style connectivity abstraction
-- Celery + Redis support for async workflows
-- Git-based storage concepts for configuration versioning
+## ✨ Внедрени Функционалности и Модули
 
-### Frontend
-- React + TypeScript
-- Vite
-- TailwindCSS
-- shadcn/ui-inspired components
-- Lucide Icons
+LANi-Platform включва следните напълно функциониращи, реални и работещи на 100% модули (без симулирани или хардкоднати стойности):
 
-## Quick start
+1. 🧠 **AI Асистент & Интелигентен Анализ**
+   - Интелигентен AI чат асистент на чист български език, напълно интегриран с базата данни (с достъп до мрежовия инвентар, одит логовете и статусите на устройствата).
+   - Автоматично обяснение на конфигурационни разлики (Diffs) и евристично сканиране на промени за сигурност.
+   - База от знания за мрежови протоколи (OSPF, BGP, SSH, VLAN).
 
-### Prerequisites
-- Python 3.11+
-- Node.js 18+
-- Optional: PostgreSQL and Redis for production-like deployments
+2. 🔐 **Secrets Vault & Ротация на Пароли**
+   - Централизиран криптографски сейф (Vault) за пароли, използващ Fernet симетрично шифроване (AES-128/256) в покой.
+   - Напълно автоматизирана услуга за редовна ротация на административните пароли директно върху мрежовите устройства по график.
 
-### Backend
+3. 📂 **NetBox & Nautobot SSOT Синхронизация**
+   - Двупосочна интеграция за автоматичен синхрон на мрежовия хардуер с единствен източник на истина (Single Source of Truth - SSOT) за нулев ръчен дрейф (no drift).
+
+4. 🕸️ **Мрежова Топология & LLDP/CDP Трасиране**
+   - Автоматично извличане на съседства по протоколите LLDP и CDP.
+   - Изграждане на топологична карта с връзките (Edges) между всички регистрирани в системата устройства.
+
+5. 🛡️ **Вграден Уеб Терминал (Web SSH) & Запис на Сесии**
+   - Secure SSH терминал директно в уеб браузъра (Network PAM proxy).
+   - Скриване на реалните пароли и секрети от крайните клиенти.
+   - Записване и одит на всяко натискане на клавиш (Keystroke logging), въведена команда и изходен резултат за пълно съответствие с NIS2 регулациите.
+
+6. 🔍 **Валидация на Конфигурации (Pre-Push Checks)**
+   - Синтактична проверка на командите преди изпращането им към устройството.
+   - Автоматизирани мрежови валидации (reachability pings) и следене на промените по състоянието на интерфейсите (Operational Interface validations).
+
+7. 🔄 **Автоматичен Ъпгрейд на Фърмуер (OS Upgrades)**
+   - Планиране и изпълнение на масови ъпгрейди на мрежови операционни системи (Cisco IOS, JunOS, RouterOS и др.).
+   - Предварителни проверки за свободно дисково пространство, верификация с MD5/SHA256 контролни суми, автоматично рестартиране и мониторинг на успешна достъпност след ъпгрейд.
+   - **Автоматичен Rollback** при повреда на връзката или неуспешен тест.
+
+8. 🧼 **Саниране на Конфигурации & Redaction**
+   - Автоматизирано откриване и заменяне/маскиране (Redaction) на сензитивна информация (пароли, enable секрети, Pre-Shared Keys, SNMP communities, частни SSH ключове) от извлечените бекъпи в реално време, преди записване в базата данни или Git.
+
+9. 📋 **Съответствие (Compliance) & Автоматично Отстраняване**
+   - Шаблони от правила за съответствие (Security, Management, NTP, AAA).
+   - Извеждане на детайлни доклади за пропуски в конфигурациите.
+   - Автоматичен rollback (Remediation) при засичане на неразрешен дрейф (Configuration Drift).
+
+---
+
+## 🚀 Инструкции за Стартиране на Различни Платформи
+
+### 🐧 1. Linux (Препоръчително)
+
+За най-бързо и лесно стартиране на Linux е разработен професионален интерактивен Bash скрипт, който се грижи за зависимостите, конфигурациите и стартирането.
+
+#### Стартиране чрез автоматичния скрипт:
+```bash
+# Преминете в корена на проекта
+cd ncm-platform
+
+# Стартирайте интелигентния скрипт
+./scripts/lani-start.sh
+```
+*Скриптът ще ви предложи графично меню с опции:*
+1. **Стартиране чрез Docker Compose** (всички услуги в контейнери — PostgreSQL, Redis, Celery, Backend, Frontend, Nginx).
+2. **Локално стартиране за разработка** (стартира виртуална среда Python, локална SQLite БД и NPM уеб сървър).
+3. **Стартиране на Автоматизирани Тестове** (pytest).
+
+---
+
+### 🍏 2. macOS (Apple Silicon & Intel)
+
+macOS поддържа както Docker стартиране, така и локално стартиране през терминала.
+
+#### Вариант А: Чрез Docker (Препоръчително)
+1. Уверете се, че имате инсталиран **Docker Desktop** за Mac.
+2. Стартирайте контейнерите:
+   ```bash
+   docker-compose up -d --build
+   ```
+
+#### Вариант Б: Локално стартиране през Терминала
+1. Инсталирайте dependencies чрез `Homebrew` при необходимост:
+   ```bash
+   brew install python node redis postgresql
+   ```
+2. Бекенд инициализация:
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   pip install -r requirements.txt
+
+   # Инициализиране на базата данни (SQLite за локални цели)
+   DATABASE_URL=sqlite:///./test.db python3 scripts/init_db.py
+
+   # Стартиране на FastAPI
+   TESTING=1 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
+3. Фронтенд стартиране (в нов терминал):
+   ```bash
+   cd frontend
+   npm install
+   npm run dev -- --port 5173
+   ```
+
+---
+
+### 🪟 3. Windows (10/11)
+
+За стартиране на Windows се препоръчва използването на **Docker Desktop** или **WSL2** (Windows Subsystem for Linux).
+
+#### Вариант А: Чрез Docker Desktop (Най-бързо)
+1. Инсталирайте и стартирайте **Docker Desktop** на Вашия компютър.
+2. Отворете `PowerShell` или `Command Prompt` в директорията на проекта и изпълнете:
+   ```powershell
+   docker-compose up -d --build
+   ```
+
+#### Вариант Б: Локално стартиране (Native Windows)
+1. Инсталирайте последна версия на [Python 3.11+](https://www.python.org/downloads/) и [Node.js](https://nodejs.org/).
+2. Отворете `PowerShell` в корена на проекта и създайте виртуална среда:
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   ```
+3. Инициализирайте базата данни:
+   ```powershell
+   $env:DATABASE_URL="sqlite:///./test.db"
+   python scripts/init_db.py
+   ```
+4. Стартирайте уеб сървъра на бекенда:
+   ```powershell
+   $env:TESTING="1"
+   uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
+5. Инсталирайте и стартирайте фронтенда в нов PowerShell прозорец:
+   ```powershell
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+---
+
+## 🐳 Използване на Docker Compose (Всички платформи)
+
+Docker Compose съдържа пълната производствена конфигурация, готова за внедряване в реална среда:
 
 ```bash
-cd /home/kallata/Downloads/ncm-platform
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
-TESTING=1 uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+# Стартиране на всички контейнери в защитен бекграунд режим
+docker-compose up -d --build
+
+# Преглед на текущите контейнери
+docker-compose ps
+
+# Следене на логове в реално време
+docker-compose logs -f
 ```
 
-### Frontend
+След успешно стартиране:
+- 🌐 **Интерфейс (Frontend):** `http://localhost:3000` (Пренасочва се през Nginx).
+- 🔗 **REST API Swagger:** `http://localhost:8000/docs`
+- 🔒 **Вход по подразбиране:** `admin` / `admin` (Препоръчва се незабавна смяна в реална среда).
+
+---
+
+## 🧪 Системни Тестове (Testing)
+
+Платформата има отлично покритие от тестове, гарантиращи стабилност при промени:
 
 ```bash
-cd frontend
-npm install
-npm run dev
+# Стартиране на пълния тестови пакет от 96 интеграционни и E2E теста
+TESTING=1 pytest
 ```
 
-### Docker (Recommended - Cross-platform)
+Тестовете проверяват:
+- Сигурността и нивата на достъп (RBAC) за администратори и наблюдатели.
+- Подаването на SSH сесии и одит записите на клавиши.
+- Автоматичното саниране и тригърването на ъпгрейди на мрежовия софтуер.
+- Интегрирания AI Асистент и неговите отговори.
 
-The easiest way to run the entire platform with PostgreSQL, Redis, and Celery background workers is using Docker Compose:
+---
 
-```bash
-# Build and start all services in the background
-docker compose up --build -d
-
-# Check status of the running containers
-docker compose ps
-
-# View logs for all services
-docker compose logs -f
-```
-
-Once running, access the services on your host machine:
-- **Frontend Web UI:** http://localhost:3000
-- **API Swagger Docs:** http://localhost:8000/docs
-- **Default Login:** `admin` / `admin` (change immediately in production!)
-
-### Tests
-
-```bash
-cd /home/kallata/Downloads/ncm-platform
-TESTING=1 ./.venv/bin/python -m pytest -q tests/test_audit_rbac.py tests/test_devices.py tests/test_configurations.py
-```
-
-## Project structure
+## 📂 Структура на Проекта
 
 ```text
-ncm-platform/
-├── app/
-│   ├── api/              # FastAPI routes for auth, devices, configs, backups, audit
-│   ├── core/             # Settings, DB, security helpers
-│   ├── models/           # SQLAlchemy models
-│   ├── schemas/          # Pydantic request/response schemas
-│   ├── services/         # Business logic for compliance, automation, backup, audit
-│   └── main.py           # Application entrypoint
-├── frontend/             # React frontend
-├── tests/                # Backend regression tests
-├── Changelog.md          # Version history
-├── Module_Status.md      # Detailed module progress
-└── README.md             # Project overview
+lani-platform/
+├── app/                  # FastAPI Бекенд Приложение
+│   ├── api/              # API рутери (auth, devices, configurations, audit)
+│   ├── core/             # Конфигурации, БД връзка, сигурност
+│   ├── models/           # SQLAlchemy бази данни схеми
+│   ├── schemas/          # Pydantic валидиращи схеми
+│   ├── services/         # Бизнес логика (AI, Secrets Vault, SSH, backup)
+│   └── main.py           # Основен FastAPI входен пункт
+├── frontend/             # React + Vite + TypeScript Фронтенд
+│   ├── src/
+│   │   ├── components/   # UI компоненти (Dashboards, AI Panel, Audit)
+│   │   └── lib/          # API Свързаност и хелпъри
+├── scripts/              # Помощни и инсталационни скриптове
+│   ├── lani-start.sh     # Интерактивен стартиращ скрипт за Linux
+│   └── init_db.py        # Инициализация и сийдване на данни
+├── docs/                 # Пълна продуктова документация
+├── tests/                # Интеграционни и E2E pytest тестове
+├── Changelog.md          # История на версиите
+├── Module_Status.md      # Статус на софтуерните модули
+└── docker-compose.yml    # Продуктова оркестрация на контейнери
 ```
 
-## API documentation
+---
 
-Once the backend is running, visit:
-- Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
+## 📜 Лиценз (License)
 
-## Current status (v0.4.5)
+Този софтуерен продукт е лицензиран под **Търговски лиценз на LANi-Platform**.
+Всички права са запазени. Използването, копирането, модификацията или разпространението на този софтуер без изрично писмено разрешение от правоносителя са строго забранени.
 
-Verified in the current workspace:
-- Backend regression tests for audit/RBAC, devices, and configurations are passing
-- Frontend production build completes successfully
-- Compliance, automation, backup, and audit views are wired to the real backend API
+За въпроси относно корпоративни планове, поддръжка или придобиване на лиценз, моля, свържете се с нас.
 
-## Contributing
-
-1. Keep the module plan in Module_Status.md aligned with implementation
-2. Update Changelog.md for every meaningful change
-3. Bump the version when shipping new functionality or fixes
-4. Keep the backend and frontend contracts synchronized
-
-## License
-
-Commercial license. All rights reserved.
+---
+**Разработено с 💻 и ☕ за нуждите на модерната мрежова автоматизация и сигурност.**

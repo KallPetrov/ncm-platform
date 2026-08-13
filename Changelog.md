@@ -5,6 +5,13 @@ All notable changes to the LANi-Platform will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [01.03.00] - 2026-08-12
+
+### Added
+- Разработен е професионален и интерактивен стартиращ скрипт за Linux (`scripts/lani-start.sh`) с цветни конзолни съобщения, проверка на софтуерните зависимости (Python, Node.js, NPM, Docker), поддръжка за Docker Compose стартиране, локално стартиране и автоматизирано пускане на тестовете.
+- Пълна преработка и масивен ъпдейт на `README.md` изцяло на български език, добавени лога/badges за пълния технологичен стек, обяснения за стартиране на Linux, macOS и Windows, секция за търговски лиценз (Commercial License) и икони (emojis) на всяка секция.
+- Версията на проекта е увеличена до `01.03.00` във всички основни файлове на платформата (`README.md`, `app/core/config.py`, `frontend/package.json` и `Module_Status.md`).
+
 ## [01.01.00] - 2026-08-10
 
 ### Added
