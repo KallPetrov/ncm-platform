@@ -1,4 +1,4 @@
-# NCM Platform - Module Status
+# LANi-Platform - Module Status
 
 **Current Version:** 01.02.00
 **Last Updated:** 2026-08-12

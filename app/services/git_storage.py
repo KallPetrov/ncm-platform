@@ -26,7 +26,7 @@ class GitStorageService:
             # Create initial commit
             readme_path = os.path.join(self.repo_path, "README.md")
             with open(readme_path, 'w') as f:
-                f.write("# NCM Platform Configuration Storage\n\n")
+                f.write("# LANi-Platform Configuration Storage\n\n")
                 f.write(f"Initialized on {datetime.now().isoformat()}\n")
             
             self.repo.index.add(["README.md"])

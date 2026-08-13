@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 app = FastAPI(
     title=settings.APP_NAME,
     version=settings.APP_VERSION,
-    description="NCM Platform API for Network Configuration Management"
+    description="LANi-Platform API for Network Configuration Management"
 )
 
 # Log SECRET_KEY for debugging
@@ -43,7 +43,7 @@ app.include_router(ai.router)
 
 @app.get("/")
 def read_root():
-    return {"message": "NCM Platform API", "version": settings.APP_VERSION}
+    return {"message": "LANi-Platform API", "version": settings.APP_VERSION}
 
 @app.get("/health")
 def health_check():

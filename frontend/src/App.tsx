@@ -63,7 +63,7 @@ function App() {
         <div className="flex h-full flex-col">
           <div className="flex h-16 items-center justify-between border-b px-4">
             {sidebarOpen && (
-              <h1 className="text-xl font-bold">NCM Platform</h1>
+              <h1 className="text-xl font-bold">LANi-Platform</h1>
             )}
             <div className="flex items-center gap-2">
               <Button

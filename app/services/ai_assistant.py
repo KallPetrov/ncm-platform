@@ -8,7 +8,7 @@ from app.services.ai_analysis import AIAnalysisService
 
 class AIAssistantService:
     """
-    AI Assistant & Copilot Service for NCM Platform
+    AI Assistant & Copilot Service for LANi-Platform
 
     Processes natural language queries in Bulgarian, inspects the live database state,
     and returns contextual, real-world network operational intelligence, platform support Q&A,
@@ -76,7 +76,7 @@ class AIAssistantService:
 
         # Default Friendly Response (Fallback)
         response_text = (
-            "Здравейте! Аз съм Вашият **AI Мрежов Асистент** (NCM Copilot) за платформата.\n\n"
+            "Здравейте! Аз съм Вашият **AI Мрежов Асистент** (LANi Copilot) за платформата.\n\n"
             "Мога да Ви помогна с реална информация за мрежата Ви, както и с инструкции за използването на самата платформа! Ето няколко теми:\n"
             "• **Управление на инвентара**: Напишете *'Как да добавя ново устройство?'*\n"
             "• **Ротация на пароли**: Напишете *'Как работи Secrets Vault?'*\n"
@@ -405,7 +405,7 @@ class AIAssistantService:
         # 1. Topic: Adding Devices
         if "добавя" in msg_lower or "device" in msg_lower:
             response_text = (
-                "### ➕ Ръководство за добавяне на ново устройство в NCM:\n\n"
+                "### ➕ Ръководство за добавяне на ново устройство в LANi-Platform:\n\n"
                 "За да регистрирате и започнете управление на устройство, изпълнете следните стъпки:\n"
                 "1. Отидете в панела **Devices** от страничното меню.\n"
                 "2. Кликнете на бутона **+ Add Device** горе вдясно.\n"
@@ -451,8 +451,8 @@ class AIAssistantService:
             response_text = (
                 "### 🔄 Двупосочна Синхронизация с NetBox / Nautobot SSOT:\n\n"
                 "Платформата се интегрира безпроблемно с външни бази Single Source of Truth (SSOT):\n"
-                "• **Импорт от NetBox**: Нашят `SSOTSyncService` се свързва с Вашия NetBox API, изтегля регистрираните устройства в DCIM и автоматично ги добавя в NCM, разпознавайки IP адреси, производители (Vendors), сайтове (Sites) и роли.\n"
-                "• **Експорт обратно**: NCM може да изпраща автоматично мрежови данни (напр. дата на последен бекъп, открит фърмуер / OS версия) обратно към NetBox за обогатяване на инвентара.\n"
+                "• **Импорт от NetBox**: Нашят `SSOTSyncService` се свързва с Вашия NetBox API, изтегля регистрираните устройства в DCIM и автоматично ги добавя в LANi-Platform, разпознавайки IP адреси, производители (Vendors), сайтове (Sites) и роли.\n"
+                "• **Експорт обратно**: LANi-Platform може да изпраща автоматично мрежови данни (напр. дата на последен бекъп, открит фърмуер / OS версия) обратно към NetBox за обогатяване на инвентара.\n"
                 "• **Управление**: Настройва се от системния панел за настройки, където се въвеждат URL на NetBox и Token."
             )
         # 6. Topic: Compliance / Съответствие
@@ -475,7 +475,7 @@ class AIAssistantService:
             )
         else:
             response_text = (
-                "### 📘 Информация за NCM Платформата:\n\n"
+                "### 📘 Информация за LANi-Platform:\n\n"
                 "Мога да Ви разкажа подробно за всяка една от следните теми:\n"
                 "1. **Добавяне на ново устройство** (напишете *'Как се добавя устройство?'*)\n"
                 "2. **Конфигурационни Бекъпи** (напишете *'Разкажи ми за бекъпите'*)\n"

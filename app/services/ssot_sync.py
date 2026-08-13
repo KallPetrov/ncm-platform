@@ -19,7 +19,7 @@ class SSOTSyncService:
         cls, db: Session, netbox_url: str, api_token: str, is_testing: Any = None
     ) -> Dict[str, Any]:
         """
-        Synchronizes device inventory from NetBox to local NCM:
+        Synchronizes device inventory from NetBox to local LANi-Platform:
         1. Queries NetBox /api/dcim/devices/
         2. Compares IP addresses and hostnames.
         3. Imports missing devices and updates modified ones.
