@@ -16,10 +16,22 @@ from app.services.audit import AuditService
 router = APIRouter(prefix="/devices", tags=["devices"])
 
 
+from app.services.license_manager import LicenseManager
+
 @router.post("/", response_model=Device, status_code=status.HTTP_200_OK)
 def create_device(device: DeviceCreate, current_user: User = Depends(get_current_active_user), db: Session = Depends(get_db)):
     """Create a new device"""
     require_permission(current_user, "manage_devices", db=db, resource_type="device")
+
+    # Check License Device Limit
+    lic = LicenseManager.validate_license()
+    current_count = db.query(DeviceModel).count()
+    if current_count >= lic.get("max_devices", 3):
+        raise HTTPException(
+            status_code=status.HTTP_402_PAYMENT_REQUIRED,
+            detail=f"Достигнат е лимитът на устройства за Вашия лиценз ({lic.get('max_devices', 3)} устройства). Моля, подновете или актуализирайте лиценза си за LANi-Platform."
+        )
+
     existing_device = db.query(DeviceModel).filter(DeviceModel.ip_address == device.ip_address).first()
     if existing_device:
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Device with this IP address already exists")

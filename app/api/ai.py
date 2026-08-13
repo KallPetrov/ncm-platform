@@ -19,6 +19,8 @@ class AIChatResponse(BaseModel):
     suggested_queries: List[str]
 
 
+from app.services.license_manager import LicenseManager
+
 @router.post("/chat", response_model=AIChatResponse)
 def chat_with_ai_assistant(
     payload: AIChatRequest,
@@ -28,6 +30,11 @@ def chat_with_ai_assistant(
     """
     Interactive Chat API endpoint with the AI Network Assistant (Copilot) in Bulgarian.
     """
+    if not LicenseManager.check_feature_allowed("ai_assistant"):
+        raise HTTPException(
+            status_code=status.HTTP_402_PAYMENT_REQUIRED,
+            detail="Модулът 'AI Асистент' изисква активен търговски лиценз за LANi-Platform. Моля, инсталирайте или подновете Вашата лицензна подписка."
+        )
     try:
         result = AIAssistantService.process_chat_message(db, current_user.id, payload.message)
         return {

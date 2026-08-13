@@ -13,6 +13,8 @@ from app.services.audit import AuditService
 router = APIRouter(prefix="/ssh", tags=["ssh"])
 
 
+from app.services.license_manager import LicenseManager
+
 @router.post("/sessions", response_model=SSHSessionResponse, status_code=status.HTTP_201_CREATED)
 def open_ssh_session(
     payload: SSHSessionCreate,
@@ -22,6 +24,11 @@ def open_ssh_session(
     """
     Initiates a secure Web-SSH session to a network device (Network PAM proxy).
     """
+    if not LicenseManager.check_feature_allowed("web_terminal"):
+        raise HTTPException(
+            status_code=status.HTTP_402_PAYMENT_REQUIRED,
+            detail="Модулът 'Уеб SSH Терминал' изисква активен търговски лиценз за LANi-Platform. Моля, инсталирайте или подновете Вашата лицензна подписка."
+        )
     device = db.query(Device).filter(Device.id == payload.device_id).first()
     if not device:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Device not found")

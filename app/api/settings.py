@@ -86,6 +86,55 @@ def update_settings(
     return settings_dict
 
 
+from app.services.license_manager import LicenseManager
+
+@router.get("/license")
+def get_license_status(
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """Get the current license status of the platform."""
+    require_permission(current_user, "manage_devices", db=db, resource_type="settings")
+    return LicenseManager.validate_license()
+
+
+@router.post("/license")
+def upload_license_key(
+    payload: dict,
+    current_user: User = Depends(get_current_active_user),
+    db: Session = Depends(get_db)
+):
+    """Upload or update the license key of the platform."""
+    require_permission(current_user, "manage_devices", db=db, resource_type="settings")
+    key = payload.get("license_key")
+    if not key:
+        raise HTTPException(status_code=400, detail="License key is required")
+
+    # Temporarily save and validate
+    saved = LicenseManager.save_license(key)
+    if not saved:
+        raise HTTPException(status_code=500, detail="Failed to save license key locally")
+
+    status_info = LicenseManager.validate_license()
+    if not status_info["valid"]:
+        # If invalid, remove the key so we don't store broken keys
+        try:
+            os.remove(LicenseManager.get_license_file_path())
+        except Exception:
+            pass
+        raise HTTPException(status_code=400, detail=status_info["message"])
+
+    AuditService.log_action(
+        db,
+        current_user,
+        "license_updated",
+        resource_type="settings",
+        resource_id=0,
+        details=f"Platform licensed to '{status_info['owner']}' until {status_info['expires_at']}"
+    )
+    return status_info
+
+
 @router.post("/test-connection/{connection_type}")
 def test_connection(
     connection_type: str,
